@@ -69,6 +69,15 @@
   );
 }
 
+.bg-dark-green-gradient {
+  background: linear-gradient(
+    144.39deg,
+    #6b826c -278.56%,
+    #007E4E -78.47%,
+    #013923 91.61%
+  );
+}
+
 .bg-gray-gradient {
   background: linear-gradient(
     153.47deg,
