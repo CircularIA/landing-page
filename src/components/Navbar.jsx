@@ -22,6 +22,15 @@ const Navbar = () => {
                         </a>
                     </li>
                 ))}
+                <li
+                    className={`font-poppins
+                    font-semibold cursor-pointer
+                    text-[20px] text-white`}
+                >
+                    <a href='https://app.hoobank.com/login'>
+                        Iniciar Sesión
+                    </a>
+                </li>
             </ul>
             <div className='sm:hidden flex flex-1 justify-end items-center'>
                 <img src={toggle ? close : menu}
