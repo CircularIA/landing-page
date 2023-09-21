@@ -3,14 +3,14 @@ import {linkedin, mail, whatsapp} from '../assets';
 
 const linea = {
   width: '80%',
-  height: '0.09rem',
+  height: '0.05rem',
   backgroundColor: '#1E1E1E',
   margin: '0 auto',
   marginTop: '1rem',
 }
 
 const ContactUs = () => (
-  <div id="about-us" className={styles.aboutSection}>
+  <div id="contactanos" className={styles.aboutSection}>
     <div className='mb-10' style={linea}></div>
     <div className="text-roboto">
       <h1 className={`${styles.aboutText} text-3xl text-black font-bold mt-10`}>CONTÁCTANOS</h1>
