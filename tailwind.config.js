@@ -1,18 +1,24 @@
-/** @type {import('tailwindcss').Config} */
-/** @type {import('tailwindcss').Config} */
-export default{
+const withMT = require("@material-tailwind/react/utils/withMT");
+
+module.exports = withMT({
   content: ["./index.html", "./src/**/*.{js,jsx}"],
   mode: "jit",
   important: true,
   theme: {
     extend: {
       colors: {
-        primary: "#00040f",
+        primary: "#ffffff",
         secondary: "#00f6ff",
         dimWhite: "rgba(255, 255, 255, 0.7)",
         dimBlue: "rgba(9, 151, 124, 0.1)",
         gradientStart: "#007E4E",
         gradientEnd: "#00B971"
+      },
+      backgroundColor: {
+        'custom-light-green': '#aaffcc',
+        'custom-dark-green': '#00B971',
+        'custom-light-blue': '#b6e3ff',
+        'custom-light-orange': '#fdebb9',
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],
@@ -31,4 +37,4 @@ export default{
     },
   },
   plugins: [],
-};
+});
