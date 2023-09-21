@@ -12,17 +12,17 @@ const linea = {
 }
 
 const teamMembers = [
-  { name: 'Ana Puyol', position: 'Ingeniería Civil Ambiental', photo: teamMember1 },
+  { name: 'Ana Puyol', position: 'Ingeniera Civil Ambiental', photo: teamMember1 },
   { name: 'Adrián Ortiz', position: 'Investigador asociado', photo: teamMember2 },
   { name: 'Leonardo Guerra', position: 'Especialista en Economía Circular', photo: teamMember3 },
-  { name: 'Catalina Pacheco', position: 'Diseñador Gráfico', photo: teamMember4 },
+  { name: 'Catalina Pacheco', position: 'Diseñadora Gráfica', photo: teamMember4 },
   { name: 'Juan Pablo Caniguante', position: 'Ingeniero Civil Informático', photo: teamMember5 },
   { name: 'Javier Tralma', position: 'Ingeniero Civil Informático', photo: teamMember6 },
 ];
 
 const Team = () => {
   return (
-    <div id="team-members" className={styles.aboutSection}>
+    <div id="equipo" className={styles.aboutSection}>
       <div className="text-roboto">
         <h1 className={`${styles.aboutText} text-3xl text-black font-bold mt-10`}>Nuestro Equipo</h1>
       </div>

@@ -1,7 +1,7 @@
 export const navLinks = [
     {
       id: "mision-vision",
-      title: "Mision Visión",
+      title: "Mision/Visión",
     },
     {
       id: "funciones",
