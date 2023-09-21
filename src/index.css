@@ -173,6 +173,13 @@
   font-weight: 600;
 }
 
+@media screen and (max-width: 480px) {
+  .text-container p{
+    font-size: 3em;
+  }
+  
+}
+
 .text-roboto {
   font-family: 'Roboto', sans-serif;
 }
@@ -192,6 +199,12 @@
   justify-content: center;
   height: 500px;
   overflow: hidden;
+}
+
+@media screen and (max-width: 480px) {
+  .contenedor-imagenes{
+    height: 300px;
+  }
 }
 
 .imagen {
@@ -330,6 +343,11 @@
   }
 }
 
+.member-photo:hover{
+  transform: scale(1.05);
+  transition: 0.5s;
+}
+
 /* ContactUs style */
 
 .contactus-container {
@@ -345,6 +363,13 @@
 .modal-container {
   width: 60vw;
   height: 80vh;
+}
+
+@media screen and (max-width: 480px)  {
+  .modal-container{
+    width: 100%;
+    height: 80%;
+  }
 }
 
 .green-top-container{
@@ -413,4 +438,48 @@
 
 .close-button:hover {
   background-color: rgba(255, 255, 255, 0.6);
+}
+
+.questionnaire-button {
+  background: linear-gradient(90deg, #0DFF6E 0%, #00945E 100%);
+  border-radius: 7px;
+  border: none;
+  color: #FFFFFF;
+  font-size: 1.2rem;
+  font-family: 'Roboto';
+  font-weight: bold;
+  width: 55%;
+  height: 4rem;
+  text-align: center;
+  margin-top: 3%;
+}
+
+.initialHidden {
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.fadeIn {
+  animation: fadeIn ease 0.5s forwards;
+}
+
+.fadeOut {
+  animation: fadeOut ease 0.5s forwards;
 }
