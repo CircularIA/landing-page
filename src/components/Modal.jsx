@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
@@ -31,13 +31,34 @@ const validationSchema = yup.object().shape({
 
 
 const Modal = ({ isOpen, onClose }) => {
-    if (!isOpen) {
+    const modalContentRef = useRef(null);
+    const [isVisible, setIsVisible] = useState(isOpen);
+    useEffect(() => {
+        if (isOpen) {
+            setIsVisible(true);
+        } else {
+            setTimeout(() => setIsVisible(false), 500); // 500ms es la duración de la animación
+        }
+    }, [isOpen]);
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (isOpen && modalContentRef.current && !modalContentRef.current.contains(event.target)) {
+                onClose();
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [onClose, isOpen]);
+
+    if (!isVisible) {
         return null;
     }
-    const urlApi = 'http://localhost:5000/api/mail/'
-    const sendMail = async (values, onSubmitProps ) => {
-        
-        const savedEmailResponse = await fetch(urlApi, {
+    const sendMail = async (values, onSubmitProps) => {
+
+        const savedEmailResponse = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/mail/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -45,7 +66,7 @@ const Modal = ({ isOpen, onClose }) => {
             body: JSON.stringify(values)
         });
         const savedEmail = await savedEmailResponse.json();
-        onSubmitProps.resetForm(); 
+        onSubmitProps.resetForm();
         if (savedEmail) {
             alert('Mensaje enviado con éxito');
             onClose();
@@ -56,13 +77,14 @@ const Modal = ({ isOpen, onClose }) => {
     }
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
-            <div className="modal-container bg-white rounded shadow-lg relative">
+        <div className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10 ${isOpen ? 'fadeIn' : 'fadeOut'}`}>
+            <div ref={modalContentRef} className="modal-container bg-white rounded shadow-lg relative">
                 {/* Franja verde superior */}
-                <div className="green-top-container">
+                <div className="green-top-container w-full flex items-center">
                     <h3 className='top-container-text'>Formulario de contacto</h3>
                     <button onClick={onClose} className="close-button">X</button>
                 </div>
+
 
                 {/* Contenido del modal */}
 
@@ -70,7 +92,7 @@ const Modal = ({ isOpen, onClose }) => {
                 <h2 className="hablemos-text">¡Hablemos!</h2>
 
                 {/* Formulario con margin left y right del 6% */}
-                <div className="px-14 text-sm">
+                <div className="px-4 sm:px-14 text-sm">
                     <Formik
                         onSubmit={sendMail}
                         initialValues={initialValues}
@@ -101,7 +123,7 @@ const Modal = ({ isOpen, onClose }) => {
                                         >
                                             <option value="trabajo" selected >Trabajo</option>
                                             <option value="contacto">Contacto</option>
-                                            <option value="otro">Otro</option>                                      
+                                            <option value="otro">Otro</option>
                                         </Field>
                                     </div>
                                     {/* Campo de nombre */}
@@ -122,7 +144,7 @@ const Modal = ({ isOpen, onClose }) => {
                                 <div className="flex space-x-4 mb-4">
                                     {/* Campo dropdown */}
                                     <div className="w-1/2">
-                                        <label className="block font-semibold">Hablo en representación de:</label>
+                                        <label className="block font-semibold">En representación de:</label>
                                         <Field
                                             as="select"
                                             className="border p-2 w-full text-gray-500"
@@ -134,20 +156,20 @@ const Modal = ({ isOpen, onClose }) => {
                                         >
                                             <option value="presidente">Presidente</option>
                                             <option value="gerente">Gerente</option>
-                                            <option value="otro">Otro</option>               
+                                            <option value="otro">Otro</option>
                                         </Field>
                                     </div>
                                     {/* Campo de email */}
                                     <div className="w-1/2">
                                         <label className="block font-semibold">Correo:</label>
-                                        <Field 
-                                        className="border p-2 w-full"
-                                        type="email"
-                                        placeholder="Ej: fulanito"
-                                        name='email'
-                                        value={values.email}
-                                        onChange={handleChange}
-                                        errors={errors.email}
+                                        <Field
+                                            className="border p-2 w-full"
+                                            type="email"
+                                            placeholder="Ej: fulanito"
+                                            name='email'
+                                            value={values.email}
+                                            onChange={handleChange}
+                                            errors={errors.email}
                                         />
                                     </div>
                                 </div>
