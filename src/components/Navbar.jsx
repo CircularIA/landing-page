@@ -1,21 +1,36 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { close, logo, menu } from '../assets/'
 import { navLinks } from '../constants'
 
 const Navbar = () => {
-    const [toggle, settoggle] = useState(false)
+    const [toggle, settoggle] = useState(null);
+    const menuRef = useRef(null);
+    const buttonRef = useRef(null);
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target) && !buttonRef.current.contains(event.target)) {
+                settoggle(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     return (
-        <nav className='w-full flex py-6 justify-between items-center navbar'>
+        <nav className='w-full flex py-4 justify-between items-center navbar'>
             <a href="/">
-                <img src={logo} alt='hoobank' className='w-[80px] mr-20' /> 
+                <img src={logo} alt='hoobank' className='w-[60px] mr-20 animate__animated animate__fadeIn' />
             </a>
-            <ul className='list-none sm:flex hidden justify-between items-center flex-1'>
+            <ul className='list-none animate__animated animate__fadeIn md:flex hidden justify-between items-center flex-1'>
                 {navLinks.map((nav) => (
                     <li
                         key={nav.id}
                         className={`font-poppins
                         font-semibold cursor-pointer
-                        text-[20px] text-white`}
+                        text-[20px] text-white text-nav`}
                     >
                         <a href={`#${nav.id}`}>
                             {nav.title}
@@ -25,21 +40,22 @@ const Navbar = () => {
                 <li
                     className={`font-poppins
                     font-semibold cursor-pointer
-                    text-[20px] text-white`}
+                    text-[20px] text-white text-nav`}
                 >
                     <a href='https://app.hoobank.com/login'>
                         Iniciar Sesión
                     </a>
                 </li>
             </ul>
-            <div className='sm:hidden flex flex-1 justify-end items-center'>
+            <div className='md:hidden flex flex-1 justify-end items-center'>
                 <img src={toggle ? close : menu}
                     alt='menu'
-                    className='w-[28px] h-[28px] object-contain'
-                    onClick={() => settoggle((prev) => !prev)}
+                    ref={buttonRef}
+                    className='w-[28px] h-[28px] object-contain animate__animated animate__fadeIn'
+                    onClick={() => settoggle((prev) => prev === null || prev === false ? true : false)}
                 />
-
-                <div className={`${toggle ? 'flex' : 'hidden'} p-6 bg-dark-green-gradient absolute top-20 right-0 mx-4 my-2 min-w-[140px] rounded-xl sidebar z-50`}> {/* Agregado z-50 para incrementar el z-index */}
+                <div ref={menuRef} className={`${toggle === null ? 'hidden' : (toggle ? 'fadeIn' : 'hidden')} p-6 bg-navbar-gradient absolute top-20 right-0 my-2 w-full sidebar z-50`}>
+                    {/* Agregado z-50 para incrementar el z-index */}
                     <ul className='list-none flex flex-col justify-end items-center flex-1'>
                         {navLinks.map((nav, index) => (
                             <li
