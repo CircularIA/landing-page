@@ -21,21 +21,21 @@ const AboutUs = () => {
   return (
     <div id="mision-vision" className={styles.aboutSection}>
       <AnimatedOnScroll animationClass="animate__fadeInLeft">
-        <img src={icon1} alt="icon1" className={styles.aboutImage} />
+        <img src={icon1} alt="icon1" className={`${styles.aboutImage} 2k:h-[200px] 4k:h-[300px]`} />
         <div className="text-roboto">
-          <h1 className={`${styles.aboutText} text-3xl text-black font-bold mt-10`}>Misión Visión</h1>
+          <h1 className={`${styles.aboutText} text-3xl 2k:text-5xl 2k:text-6xl text-black font-bold mt-10`}>Misión Visión</h1>
         </div>
         <div className={`${styles.flexCenter} w-4/5 lg:w-2/5 mx-auto`}>
-          <p className={`${styles.aboutText} text-black font-normal mt-10 mb-5 text-lg`}>Transformando la sostenibilidad empresarial a través de la innovación y la tecnología.</p>
+          <p className={`${styles.aboutText} text-black font-normal mt-10 mb-5 text-lg 2k:text-2xl 4k:text-3xl`}>Transformando la sostenibilidad empresarial a través de la innovación y la tecnología.</p>
         </div>
       </AnimatedOnScroll>
       <AnimatedOnScroll animationClass="animate__fadeInLeft">
         <div id="funciones" className="text-roboto">
-          <h1 className={`${styles.aboutText} text-3xl text-black font-bold mt-10`}>Nuestras funciones</h1>
+          <h1 className={`${styles.aboutText} text-3xl 2k:text-5xl 2k:text-6xl text-black font-bold mt-10`}>Nuestras funciones</h1>
         </div>
         <div style={linea}></div>
         <div className="carrusel">
-          <div className="contenedor-imagenes">
+          <div className="contenedor-imagenes h-[250px] sm:h-[400px] md:h-[600px] 2k:h-[1000px] 4k:h-[1300px]">
             <Carousel className="rounded-xl">
               {images.map((image, index) => (
                 <img
