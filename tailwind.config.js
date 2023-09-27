@@ -34,6 +34,8 @@ module.exports = withMT({
       md: "1060px",
       lg: "1200px",
       xl: "1700px",
+      '2k': '2560px', // Para monitores 2K
+      '4k': '3840px', // Para monitores 4K
     },
   },
   plugins: [],
