@@ -81,7 +81,7 @@ const Modal = ({ isOpen, onClose }) => {
             <div ref={modalContentRef} className="modal-container bg-white rounded shadow-lg relative">
                 {/* Franja verde superior */}
                 <div className="green-top-container w-full flex items-center">
-                    <h3 className='top-container-text'>Formulario de contacto</h3>
+                    <h3 className='top-container-text text-xl 2k:text-2xl 4k:text-4xl'>Formulario de contacto</h3>
                     <button onClick={onClose} className="close-button">X</button>
                 </div>
 
@@ -89,7 +89,7 @@ const Modal = ({ isOpen, onClose }) => {
                 {/* Contenido del modal */}
 
                 {/* Título */}
-                <h2 className="hablemos-text">¡Hablemos!</h2>
+                <h2 className="hablemos-text text-lg 2k:text-2xl 4k:text-3xl">¡Hablemos!</h2>
 
                 {/* Formulario con margin left y right del 6% */}
                 <div className="px-4 sm:px-14 text-sm">
@@ -111,10 +111,10 @@ const Modal = ({ isOpen, onClose }) => {
                                 <div className="flex space-x-4 mb-4">
                                     {/* Campo dropdown */}
                                     <div className="w-1/2">
-                                        <label className="block font-semibold">Escribo en relación a:</label>
+                                        <label className="block font-semibold 2k:text-xl 4k:text-2xl">Escribo en relación a:</label>
                                         <Field
                                             as="select"
-                                            className="border p-2 w-full text-gray-500"
+                                            className="border p-2 w-full 2k:text-xl 4k:text-2xl text-gray-500"
                                             placeholder="Por favor seleccione"
                                             name="relation"
                                             value={values.relation}
@@ -128,9 +128,9 @@ const Modal = ({ isOpen, onClose }) => {
                                     </div>
                                     {/* Campo de nombre */}
                                     <div className="w-1/2">
-                                        <label className="block font-semibold">Nombre:</label>
+                                        <label className="block font-semibold 2k:text-xl 4k:text-2xl">Nombre:</label>
                                         <Field
-                                            className="border p-2 w-full"
+                                            className="border p-2 w-full 2k:text-xl 4k:text-2xl"
                                             type="text"
                                             placeholder="Ej: Fulanito Perez"
                                             name='name'
@@ -144,10 +144,10 @@ const Modal = ({ isOpen, onClose }) => {
                                 <div className="flex space-x-4 mb-4">
                                     {/* Campo dropdown */}
                                     <div className="w-1/2">
-                                        <label className="block font-semibold">En representación de:</label>
+                                        <label className="block font-semibold 2k:text-xl 4k:text-2xl">En representación de:</label>
                                         <Field
                                             as="select"
-                                            className="border p-2 w-full text-gray-500"
+                                            className="border p-2 w-full 2k:text-xl 4k:text-2xl text-gray-500"
                                             placeholder="Por favor seleccione"
                                             name="represent"
                                             value={values.represent}
@@ -161,9 +161,9 @@ const Modal = ({ isOpen, onClose }) => {
                                     </div>
                                     {/* Campo de email */}
                                     <div className="w-1/2">
-                                        <label className="block font-semibold">Correo:</label>
+                                        <label className="block font-semibold 2k:text-xl 4k:text-2xl">Correo:</label>
                                         <Field
-                                            className="border p-2 w-full"
+                                            className="border p-2 w-full 2k:text-xl 4k:text-2xl"
                                             type="email"
                                             placeholder="Ej: fulanito"
                                             name='email'
@@ -176,9 +176,9 @@ const Modal = ({ isOpen, onClose }) => {
 
                                 {/* Campo de mensaje */}
                                 <div className="mb-4">
-                                    <label className="block font-semibold">Tu mensaje:</label>
+                                    <label className="block font-semibold 2k:text-xl 4k:text-2xl">Tu mensaje:</label>
                                     <Field
-                                        className="border p-2 w-full h-32"
+                                        className="border p-2 w-full h-32 2k:h-60 4k:h-80 2k:text-xl 4k:text-2xl"
                                         as="textarea"
                                         maxLength="2000"
                                         placeholder="Escribe tu mensaje aquí"
@@ -187,12 +187,12 @@ const Modal = ({ isOpen, onClose }) => {
                                         onChange={handleChange}
                                         errors={errors.message}
                                     />
-                                    <p className="text-right text-sm text-gray-600">Máximo 2000 carácteres</p>
+                                    <p className="text-right text-sm 2k:text-lg 4k:text-xl text-gray-600">Máximo 2000 carácteres</p>
                                 </div>
 
                                 {/* Botón de enviar */}
                                 <div className='button-container'>
-                                    <button type="submit" className="modal-button">Enviar</button>
+                                    <button type="submit" className="modal-button 2k:text-2xl 4k:text-3xl">Enviar</button>
                                 </div>
                             </form>
                         )
