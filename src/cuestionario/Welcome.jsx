@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import "./index.css"
 import { CSSTransition } from 'react-transition-group';
-import WelcomeImg from '../assets/Welcome.svg';
+import WelcomeImg from '../assets/welcome.svg';
 import questionimg1_1 from '../assets/questionimg1-1.jpg';
 import metricimg1_1 from '../assets/metricimg1-1.jpg';
 import questionimg2_1 from '../assets/questionimg2-1.jpg';
