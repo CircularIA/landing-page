@@ -197,14 +197,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 500px;
   overflow: hidden;
-}
-
-@media screen and (max-width: 480px) {
-  .contenedor-imagenes{
-    height: 300px;
-  }
 }
 
 .imagen {
@@ -311,7 +304,6 @@
 .member-photo {
   width: 100%;
   height: auto;
-  max-width: 270px;
   margin: 0 auto;
 }
 
@@ -351,7 +343,6 @@
 /* ContactUs style */
 
 .contactus-container {
-  width: 15%;
   margin: 0 auto;
   margin-top: 2rem;
   display: flex;
@@ -383,7 +374,6 @@
 }
 
 .top-container-text{
-  font-size: 1.3rem;
   font-family: 'Roboto';
   position: relative;
   margin-left: 6%;
@@ -391,7 +381,6 @@
 }
 
 .hablemos-text{
-  font-size: 1.5rem;
   font-family: 'Roboto';
   font-weight: bold;
   position: relative;
@@ -449,9 +438,7 @@
   font-family: 'Roboto';
   font-weight: bold;
   width: 55%;
-  height: 4rem;
   text-align: center;
-  margin-top: 3%;
 }
 
 .initialHidden {

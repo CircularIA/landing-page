@@ -71,8 +71,8 @@
 }
 
 .navigation-button {
-    width: 100px;
-    height: 70px;
+    width: 7%;
+    height: 50%;
     font-size: 50px;
     background-color: #F1F1F1;
     border: 1px solid #989898;
@@ -83,6 +83,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+@media screen and (max-width: 480px) {
+    .navigation-button{
+        width: 13%;
+        opacity: 60%;
+
+    }    
 }
 
 .navigation-button:hover {

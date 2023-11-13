@@ -20,9 +20,9 @@ const Navbar = () => {
     }, []);
 
     return (
-        <nav className='w-full flex py-4 justify-between items-center navbar'>
+        <nav className='w-full h-full flex py-4 justify-between items-center navbar'>
             <a href="/">
-                <img src={logo} alt='hoobank' className='w-[60px] mr-20 animate__animated animate__fadeIn' />
+                <img src={logo} alt='hoobank' className='w-[60px] 2k:w-[80px] mr-20 animate__animated animate__fadeIn' />
             </a>
             <ul className='list-none animate__animated animate__fadeIn md:flex hidden justify-between items-center flex-1'>
                 {navLinks.map((nav) => (
@@ -30,7 +30,7 @@ const Navbar = () => {
                         key={nav.id}
                         className={`font-poppins
                         font-semibold cursor-pointer
-                        text-[20px] text-white text-nav`}
+                        text-[20px] 2k:text-[30px] 4k:text-[35px] text-white text-nav`}
                     >
                         <a href={`#${nav.id}`}>
                             {nav.title}
@@ -40,7 +40,7 @@ const Navbar = () => {
                 <li
                     className={`font-poppins
                     font-semibold cursor-pointer
-                    text-[20px] text-white text-nav`}
+                    text-[20px] 2k:text-[30px] 4k:text-[35px] text-white text-nav`}
                 >
                     <a href='https://app.hoobank.com/login'>
                         Iniciar Sesión

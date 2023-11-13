@@ -24,16 +24,16 @@ const Team = () => {
   return (
     <div id="equipo" className={styles.aboutSection}>
       <div className="text-roboto">
-        <h1 className={`${styles.aboutText} text-3xl text-black font-bold mt-10`}>Nuestro Equipo</h1>
+        <h1 className={`${styles.aboutText} text-3xl 2k:text-5xl 2k:text-6xl text-black font-bold mt-10`}>Nuestro Equipo</h1>
       </div>
       <div style={linea}></div>
       <div className="team-members-container mt-10">
         {teamMembers.map((member, index) => (
-          <div className="team-member" key={index}>
-            <img src={member.photo} alt={member.name} className="member-photo" />
+          <div className="team-member p6 2k:p-10" key={index}>
+            <img src={member.photo} alt={member.name} className="member-photo max-w-[270px] 2k:max-w-[420px] 4k:max-w-[650px]" />
             <div className="member-info">
-              <h3>{member.name}</h3>
-              <p>{member.position}</p>
+              <h3 className='2k:text-4xl 4k:text-5xl'>{member.name}</h3>
+              <p className='2k:text-2xl 4k:text-3xl'>{member.position}</p>
             </div>
           </div>
         ))}

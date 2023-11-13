@@ -32,9 +32,9 @@ const MainPage = () => {
   };
 
   return (
-    <div className='bg-navbar-gradient w-full overflow-hidden'>
+    <div className='bg-navbar-gradient w-[full] overflow-hidden'>
       <div className={`${styles.paddingX} ${styles.flexCenter}`} >
-        <div className={`${styles.boxWidth}`}>
+        <div className={`w-full 2k:h-[120px] 4k:h-[150px]`}>
           <Navbar />
         </div>
       </div>
@@ -53,11 +53,11 @@ const MainPage = () => {
           <AnimatedOnScroll animationClass="animate__fadeInUp">
             <div>
               <div className="text-roboto">
-                <h1 className={`${styles.aboutText} text-3xl text-black font-bold mt-10`}>Ahora es tu turno</h1>
+                <h1 className={`${styles.aboutText} text-3xl 2k:text-5xl 2k:text-6xl text-black font-bold mt-10`}>Ahora es tu turno</h1>
               </div>
               <div style={linea}></div>
-              <div className='button-container'>
-                <button type="submit" className="questionnaire-button text-sm sm:text-xl" onClick={() => navigate("/cuestionario")}>Te invitamos a contestar nuestro cuestionario</button>
+              <div className='button-container py-14'>
+                <button type="submit" className="questionnaire-button h-[50px] 2k:h-[70px] 4k:h-[100px] text-sm sm:text-xl 2k:text-3xl 4k:text-4xl " onClick={() => navigate("/cuestionario")}>Te invitamos a contestar nuestro cuestionario</button>
               </div>
             </div>
             <ContactUs />
@@ -65,8 +65,9 @@ const MainPage = () => {
         </div>
       </div>
       <div className="fixed right-0 transform -translate-y-1/2 cursor-pointer" style={{ top: '45%' }} onClick={handleIconClick}>
-        <img src={messageIcon} alt="Mensaje" width="55" height="55" className="message-img" />
+        <img src={messageIcon} alt="Mensaje" width="55" height="55" className="message-img 2k:w-[100px] 2k:h-[100px] 4k:w-[130px] 4k:h-[130px]" />
       </div>
+
       <Modal isOpen={isModalOpen} onClose={handleCloseModal} />
     </div>
   )

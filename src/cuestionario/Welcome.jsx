@@ -148,7 +148,7 @@ const Welcome = () => {
     const handlePreviousQuestion = () => {
         setCurrentQuestion(currentQuestion - 1);
     };
-
+    const width = window.innerWidth
     return (
         <div className='animate__animated animate__fadeIn'>
             <CSSTransition
@@ -157,28 +157,26 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-screen  flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full'>
-                                    <img src={WelcomeImg} className='w-60 h-60 mx-auto' alt='Logo' />
-                                    <h1 className='text-xl text-roboto font-bold text-center mt-5 mb-5'>¡BIENVENIDO/A CIRCULARIA! - CUESTIONARIO INTERACTIVO</h1>
-                                    <p className='text-roboto text-center'>
-                                        Gracias por tomarte el tiempo de participar en este cuestionario interactivo. En CircularIA, estamos comprometidos con la promoción y gestión de la economía circular y la sostenibilidad en el ámbito empresarial. A través de este cuestionario, buscamos entender mejor cómo las empresas perciben y valoran la economía circular, y cómo herramientas digitales como la nuestra pueden ser de utilidad en este proceso. Tu feedback es esencial para nosotros, ya que nos permitirá adaptar y mejorar nuestras soluciones para satisfacer mejor las necesidades de las empresas en este ámbito tan crucial. Por favor, responde con sinceridad y detenimiento. ¡Gracias por ser parte de este viaje hacia un futuro más sostenible!</p>
-                                    <div className='flex flex-col justify-center items-center mb-5'>
-                                        <input
-                                            type="text"
-                                            placeholder="Introduce tu nombre"
-                                            className='mt-3 p-2 border border-black rounded placeholder-gray-600'
-                                            style={{ width: '50%' }}
-                                            value={nombre}
-                                            onChange={(e) => setNombre(e.target.value)}
-                                        />
-                                        <button className='button-login' style={{ width: '50%' }} onClick={handleNextQuestion}>
-                                            ¡Empezar!
-                                        </button>
-                                    </div>
+                <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                    <div className='h-screen w-full flex flex-col sm:flex-row'>
+                        <div className='w-screen  flex flex-col items-center justify-center'>
+                            <div className='max-w-4xl w-full'>
+                                <img src={WelcomeImg} className='w-60 h-60 mx-auto' alt='Logo' />
+                                <h1 className='text-xl text-roboto font-bold text-center mt-5 mb-5'>¡BIENVENIDO/A CIRCULARIA! - CUESTIONARIO INTERACTIVO</h1>
+                                <p className='text-roboto text-center text-justify px-2 text-sm sm:text-base'>
+                                    Gracias por tomarte el tiempo de participar en este cuestionario interactivo. En CircularIA, estamos comprometidos con la promoción y gestión de la economía circular y la sostenibilidad en el ámbito empresarial. A través de este cuestionario, buscamos entender mejor cómo las empresas perciben y valoran la economía circular, y cómo herramientas digitales como la nuestra pueden ser de utilidad en este proceso. Tu feedback es esencial para nosotros, ya que nos permitirá adaptar y mejorar nuestras soluciones para satisfacer mejor las necesidades de las empresas en este ámbito tan crucial. Por favor, responde con sinceridad y detenimiento. ¡Gracias por ser parte de este viaje hacia un futuro más sostenible!</p>
+                                <div className='flex flex-col justify-center items-center mb-5'>
+                                    <input
+                                        type="text"
+                                        placeholder="Introduce tu nombre"
+                                        className='mt-3 p-2 border border-black rounded placeholder-gray-600'
+                                        style={{ width: '50%' }}
+                                        value={nombre}
+                                        onChange={(e) => setNombre(e.target.value)}
+                                    />
+                                    <button className='button-login' style={{ width: '50%' }} onClick={handleNextQuestion}>
+                                        ¡Empezar!
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -191,16 +189,16 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
                             <div className='w-screen  flex flex-col items-center justify-start'>
                                 <div className='w-full'>
                                     <h1 className='text-2xl text-roboto font-bold text-center mt-10 mb-5'>Validación 1: Contexto</h1>
                                     <div className='flex w-full'>
                                         <div className='w-1/3 h-screen'>
                                             <div className='info-header bg-custom-light-green'>
-                                                <h1 className='text-2xl text-roboto font-bold text-center'>
+                                                <h1 className='text-sm sm:text-2xl text-roboto font-bold text-center'>
                                                     Información Ambiental
                                                 </h1>
                                             </div>
@@ -208,34 +206,34 @@ const Welcome = () => {
                                                 <div className='flex mt-5'>
                                                     <div className='w-1/2 text-center'>
                                                         <img src={drop} alt="water" className="icon w-20" />
-                                                        <p>Agua</p>
+                                                        <p className='text-xs sm:text-base'>Agua</p>
                                                     </div>
                                                     <div className='w-1/2 text-center'>
                                                         <img src={solarPower} alt="solar power" className="icon w-20" />
-                                                        <p>Energía</p>
+                                                        <p className='text-xs sm:text-base'>Energía</p>
                                                     </div>
                                                 </div>
                                                 <div className='flex mt-5'>
                                                     <div className='w-1/2 text-center'>
                                                         <img src={co2} alt="co2" className="icon w-20" />
-                                                        <p>Huella de carbono</p>
+                                                        <p className='text-xs sm:text-base'>Huella de carbono</p>
                                                     </div>
                                                     <div className='w-1/2 text-center'>
                                                         <img src={entry} alt="entry" className="icon w-20" />
-                                                        <p>Flujos de entrada y salida</p>
+                                                        <p className='text-xs sm:text-base'> Flujos de entrada y salida</p>
                                                     </div>
                                                 </div>
                                                 <div className='flex justify-center mt-5'>
                                                     <div>
                                                         <img src={ambientalCulture} alt="ambiental culture" className="icon w-20" />
-                                                        <p className='text-center'>Cultura ambiental</p>
+                                                        <p className='text-center text-xs sm:text-base'>Cultura ambiental</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className='w-1/3 h-screen'>
                                             <div className='info-header bg-custom-light-orange'>
-                                                <h1 className='text-2xl text-roboto font-bold text-center'>
+                                                <h1 className='text-sm sm:text-2xl text-roboto font-bold text-center'>
                                                     Información Económica
                                                 </h1>
                                             </div>
@@ -243,24 +241,24 @@ const Welcome = () => {
                                                 <div className='flex'>
                                                     <div className='w-1/2 text-center'>
                                                         <img src={moneyBag} alt="people" className="icon w-20" />
-                                                        <p>Ingreso circular</p>
+                                                        <p className='text-xs sm:text-base'>Ingreso circular</p>
                                                     </div>
                                                     <div className='w-1/2 text-center'>
                                                         <img src={moneyHand} alt="office" className="icon w-20" />
-                                                        <p>Inversión circular</p>
+                                                        <p className='text-xs sm:text-base'>Inversión circular</p>
                                                     </div>
                                                 </div>
                                                 <div className='flex justify-center mt-5'>
                                                     <div>
                                                         <img src={piggyBank} alt="handshake" className="icon w-20" />
-                                                        <p className='text-center'>Ahorro</p>
+                                                        <p className='text-center text-xs sm:text-base'>Ahorro</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div className='w-1/3 h-screen'>
                                             <div className='info-header bg-custom-light-blue'>
-                                                <h1 className='text-2xl text-roboto font-bold text-center'>
+                                                <h1 className='text-sm sm:text-2xl text-roboto font-bold text-center'>
                                                     Información Social
                                                 </h1>
                                             </div>
@@ -268,27 +266,27 @@ const Welcome = () => {
                                                 <div className='flex mt-5'>
                                                     <div className='w-1/2 text-center'>
                                                         <img src={people} alt="people" className="icon w-20" />
-                                                        <p>Empleos creados</p>
+                                                        <p className='text-xs sm:text-base'>Empleos creados</p>
                                                     </div>
                                                     <div className='w-1/2 text-center'>
                                                         <img src={office} alt="office" className="icon w-20" />
-                                                        <p>Cultura interna sostenible</p>
+                                                        <p className='text-xs sm:text-base'>Cultura interna sostenible</p>
                                                     </div>
                                                 </div>
                                                 <div className='flex mt-5'>
                                                     <div className='w-1/2 text-center'>
                                                         <img src={security} alt="security" className="icon w-20" />
-                                                        <p>Seguridad</p>
+                                                        <p className='text-xs sm:text-base'>Seguridad</p>
                                                     </div>
                                                     <div className='w-1/2 text-center'>
                                                         <img src={connect} alt="connect" className="icon w-20" />
-                                                        <p>Sinergia industrial</p>
+                                                        <p className='text-xs sm:text-base'>Sinergia industrial</p>
                                                     </div>
                                                 </div>
                                                 <div className='flex justify-center mt-5'>
                                                     <div>
                                                         <img src={handshake} alt="handshake" className="icon w-20" />
-                                                        <p className='text-center'>Aporte social directo</p>
+                                                        <p className='text-center text-xs sm:text-base'>Aporte social directo</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -316,12 +314,12 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-2xl text-roboto font-bold text-start mb-5'>Pregunta 1.1: En su empresa, ¿ocupan alguna plataforma o servicio que requiera compartir información sensible? Si es así, ¿qué medida de seguridad le entrega?</h1>
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:w-1/2 sm:h-full flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 1.1: En su empresa, ¿ocupan alguna plataforma o servicio que requiera compartir información sensible? Si es así, ¿qué medida de seguridad le entrega?</h1>
                                     <textarea
                                         className="text-area w-full h-52"
                                         maxLength="2000"
@@ -331,8 +329,8 @@ const Welcome = () => {
                                 </div>
 
                             </div>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={questionimg1_1} className='h-full w-full' alt='Imagen' />
+                            <div className='h-1/2 sm:w-1/2 sm:h-full flex items-end justify-end'>
+                                <img src={questionimg1_1} className='h-full w-full object-cover' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -354,15 +352,15 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={metricimg1_1} className='h-full w-full' alt='Imagen2' />
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={metricimg1_1} className='h-full w-full object-cover' alt='Imagen2' />
                             </div>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-xl text-roboto font-bold text-start mb-5'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
                                         Métrica 1.1: En una escala del 1 al 5, donde 1 es &ldquo;cero riesgo&rdquo; y 5 es &ldquo;muy riesgoso&rdquo;. ¿Cuál es su percepción de riesgo en compartir la información mencionada en el contexto de la pregunta?
                                     </h1>
                                 </div>
@@ -396,12 +394,12 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-2xl text-roboto font-bold text-start mb-5'>Pregunta 2.1: Si garantizamos la encriptación, anonimización, y respaldamos nuestra seguridad con un contrato de confidencialidad, ¿se sentiría confiado compartiendo datos con nuestra plataforma? De no ser así, ¿qué medidas adicionales le brindarían esa confianza</h1>
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 2.1: Si garantizamos la encriptación, anonimización, y respaldamos nuestra seguridad con un contrato de confidencialidad, ¿se sentiría confiado compartiendo datos con nuestra plataforma? De no ser así, ¿qué medidas adicionales le brindarían esa confianza</h1>
                                     <textarea
                                         className="text-area w-full h-52"
                                         maxLength="2000"
@@ -411,8 +409,8 @@ const Welcome = () => {
                                 </div>
 
                             </div>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={questionimg2_1} className='h-full w-full' alt='Imagen' />
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={questionimg2_1} className='h-full w-full object-cover' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -434,15 +432,15 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={metricimg2_1} className='h-full w-full' alt='Imagen2' />
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={metricimg2_1} className='h-full w-full object-cover' alt='Imagen2' />
                             </div>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-xl text-roboto font-bold text-start mb-5'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
                                         Métrica 2.1: En una escala del 1 al 5, siendo 1 &ldquo;nada confiable&rdquo; y 5 &ldquo;completamente confiable&rdquo;. ¿Cuánta confianza tendría en compartir datos bajo los instrumentos ya mencionados?
                                     </h1>
                                 </div>
@@ -476,15 +474,15 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
                             <div className='w-screen  flex flex-col items-center justify-start'>
                                 <div className='w-full'>
                                     <h1 className='text-2xl text-roboto font-bold text-center mt-10 mb-5'>Validación 2: Contexto</h1>
                                 </div>
-                                <img src={context2_1} className='h-52' alt='Logo' />
-                                <img src={context2_2} className='h-80 mt-2' alt='Logo' />
+                                <img src={context2_1} className='h-52 object-contain' alt='Logo' />
+                                <img src={context2_2} className='h-80 mt-2 object-contain' alt='Logo' />
                             </div>
                         </div>
                     </div>
@@ -504,12 +502,12 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-2xl text-roboto font-bold text-start mb-5'>Pregunta 1.2: ¿Cuál es su experiencia actual en la recolección de datos de los flujos de recursos, económicos y sociales en su trabajo? ¿En qué medida cree que un software de inteligencia artificial que automatiza la recolección de esta información sería útil para usted y su organización?</h1>
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 1.2: ¿Cuál es su experiencia actual en la recolección de datos de los flujos de recursos, económicos y sociales en su trabajo? ¿En qué medida cree que un software de inteligencia artificial que automatiza la recolección de esta información sería útil para usted y su organización?</h1>
                                     <textarea
                                         className="text-area w-full h-52"
                                         maxLength="2000"
@@ -519,8 +517,8 @@ const Welcome = () => {
                                 </div>
 
                             </div>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={questionimg1_2} className='h-full w-full' alt='Imagen' />
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={questionimg1_2} className='h-full w-full object-cover' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -542,15 +540,15 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={metricimg1_2} className='h-full w-full' alt='Imagen2' />
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={metricimg1_2} className='h-full w-full object-cover' alt='Imagen2' />
                             </div>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-xl text-roboto font-bold text-start mb-5'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
                                         Métrica 1.2: En una escala del 1 al 5, donde 1 es &ldquo;no influiría en mis decisiones&rdquo; y 5 es &ldquo;sería un factor decisivo&rdquo;. ¿Cuánto peso daría a las recomendaciones del software en su proceso de toma de decisiones?
                                     </h1>
                                 </div>
@@ -584,12 +582,12 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-2xl text-roboto font-bold text-start mb-5'>Pregunta 2.2: En el contexto de la economía circular, donde la sistematización y la fluidez en el manejo de datos son cruciales, ¿cree que una integración automática de flujo de datos con su sistema actual (ejemplo SAP u otra plataforma) potenciaría significativamente su eficiencia y eficacia? ¿Cómo evaluaría el impacto de esta automatización sistematizada en su gestión diaria?</h1>
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 2.2: En el contexto de la economía circular, donde la sistematización y la fluidez en el manejo de datos son cruciales, ¿cree que una integración automática de flujo de datos con su sistema actual (ejemplo SAP u otra plataforma) potenciaría significativamente su eficiencia y eficacia? ¿Cómo evaluaría el impacto de esta automatización sistematizada en su gestión diaria?</h1>
                                     <textarea
                                         className="text-area w-full h-52"
                                         maxLength="2000"
@@ -599,8 +597,8 @@ const Welcome = () => {
                                 </div>
 
                             </div>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={questionimg2_2} className='h-full w-full' alt='Imagen' />
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={questionimg2_2} className='h-full w-full object-cover' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -620,15 +618,15 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={metricimg2_2} className='h-full w-full' alt='Imagen2' />
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={metricimg2_2} className='h-full w-full object-cover' alt='Imagen2' />
                             </div>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-xl text-roboto font-bold text-start mb-5'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
                                         Métrica 2.2: En una escala del 1 al 5, donde 1 es &ldquo;no valioso&rdquo; y 5 es &ldquo;muy valioso&rdquo;. ¿Cuánto valoraría una integración directa con el sistema (SAP/Otra plataforma) de su empresa?
                                     </h1>
                                 </div>
@@ -662,52 +660,52 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
                             <div className='w-screen  flex flex-col items-center justify-start'>
                                 <div className='w-full h-screen'>
                                     <h1 className='text-2xl text-roboto font-bold text-center mt-10 mb-5'>Validación 3: Contexto</h1>
                                     <div className='h-[80%] flex flex-col justify-center items-center text-center text-white'>
-                                        <div className='w-full flex flex-row gap-4 px-8 py-4'>
-                                            <div className='w-1/4 info-header bg-custom-dark-green'>
+                                        <div className='w-full flex flex-row gap-4 px-2 sm:px-6 md:px-8 py-4'>
+                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
                                                 Permite trazabilidad
                                             </div>
-                                            <div className='w-1/4 info-header bg-custom-dark-green'>
+                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
                                                 Incentiva proyectos de Economía Circular
                                             </div>
-                                            <div className='w-1/4 info-header bg-custom-dark-green'>
+                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
                                                 Monitorea la estrategia y corregirla
                                             </div>
-                                            <div className='w-1/4 info-header bg-custom-dark-green'>
+                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
                                                 Gestiona proyectos
                                             </div>
                                         </div>
-                                        <div className='w-full flex flex-row gap-4 px-8 py-4'>
-                                            <div className='w-1/4 info-header bg-custom-dark-green'>
+                                        <div className='w-full flex flex-row gap-4 px-2 sm:px-6 md:px-8 py-4'>
+                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
                                                 Permite cumplir legislación y trazabilidad
                                             </div>
-                                            <div className='w-1/4 info-header bg-custom-dark-green'>
+                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
                                                 Comunica y visibiliza resultados
                                             </div>
-                                            <div className='w-1/4 info-header bg-custom-dark-green'>
+                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
                                                 Genera reportes
                                             </div>
-                                            <div className='w-1/4 info-header bg-custom-dark-green'>
+                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
                                                 Contabiliza los avances hacia metas
                                             </div>
                                         </div>
-                                        <div className='w-full flex flex-row gap-4 px-8 py-4'>
-                                            <div className='w-1/4 info-header bg-custom-dark-green'>
+                                        <div className='w-full flex flex-row gap-4 px-2 sm:px-6 md:px-8 py-4'>
+                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
                                                 Aprende sobre Economía Circular
                                             </div>
-                                            <div className='w-1/4 info-header bg-custom-dark-green'>
+                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
                                                 Comparación con promedio por industria
                                             </div>
-                                            <div className='w-1/4 info-header bg-custom-dark-green'>
+                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
                                                 Revisa buenas practicas en base a evaluación
                                             </div>
-                                            <div className='w-1/4 info-header bg-custom-dark-green'>
+                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
                                                 Gestiona proyectos de Economía Circular
                                             </div>
                                         </div>
@@ -732,12 +730,12 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-3/5 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-2xl text-roboto font-bold text-start mb-5'>Pregunta 1.3: ¿Cree que nuestra plataforma ofrece suficiente valor a su empresa como para desear adquirirla? ¿Qué funcionalidades o aspectos considera usted más valiosos?</h1>
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 1.3: ¿Cree que nuestra plataforma ofrece suficiente valor a su empresa como para desear adquirirla? ¿Qué funcionalidades o aspectos considera usted más valiosos?</h1>
                                     <textarea
                                         className="text-area w-full h-52"
                                         maxLength="2000"
@@ -747,8 +745,8 @@ const Welcome = () => {
                                 </div>
 
                             </div>
-                            <div className='w-2/5 flex items-end justify-end'>
-                                <img src={questionimg1_3} className='h-full w-full' alt='Imagen' />
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={questionimg1_3} className='h-full w-full sm:object-contain md:object-fill' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -770,15 +768,15 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={metricimg1_3} className='h-full w-full' alt='Imagen2' />
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={metricimg1_3} className='h-full w-full sm:object-contain md:object-fill' alt='Imagen2' />
                             </div>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-xl text-roboto font-bold text-start mb-5'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
                                         Métrica 1.3: En una escala del 1 al 5, siendo 1 &ldquo;muy en desacuerdo&rdquo; y 5 &ldquo;muy de acuerdo&rdquo;. ¿Cree que nuestra plataforma ofrece suficiente valor a su empresa como para desear adquirirla?
                                     </h1>
                                 </div>
@@ -812,12 +810,12 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-2xl text-roboto font-bold text-start mb-5'>Pregunta 2.3: ¿Qué funcionalidades adicionales o mejoras cree usted que se podrían incluir en nuestra plataforma para aumentar su valor y hacerla de mayor valor para potenciar y acelerar la estrategia de economía circular?</h1>
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 2.3: ¿Qué funcionalidades adicionales o mejoras cree usted que se podrían incluir en nuestra plataforma para aumentar su valor y hacerla de mayor valor para potenciar y acelerar la estrategia de economía circular?</h1>
                                     <textarea
                                         className="text-area w-full h-52"
                                         maxLength="2000"
@@ -827,8 +825,8 @@ const Welcome = () => {
                                 </div>
 
                             </div>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={questionimg2_3} className='h-full w-full' alt='Imagen' />
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={questionimg2_3} className='h-full w-full object-cover' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -848,15 +846,15 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={metricimg2_3} className='h-full w-full' alt='Imagen2' />
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={metricimg2_3} className='h-full w-full object-cover' alt='Imagen2' />
                             </div>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-xl text-roboto font-bold text-start mb-5'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
                                         Métrica 2.3: En una escala del 1 al 5, siendo 1 &ldquo;no valioso en absoluto&rdquo; y 5 &ldquo;extremadamente valioso&rdquo;. ¿Cuán valiosa considera una solución que le brinde acceso directo a esta información?
                                     </h1>
                                 </div>
@@ -890,9 +888,9 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
                             <div className='w-screen  flex flex-col items-center justify-start'>
                                 <div className='w-full h-screen'>
                                     <h1 className='text-2xl text-roboto font-bold text-center mt-10 mb-5'>Validación 4: Contexto</h1>
@@ -912,12 +910,12 @@ const Welcome = () => {
                                         </div>
                                         <div className='w-full flex flex-row gap-4 px-12 py-4'>
                                             <div className='w-1/2 info-header text-black'>
-                                                <div className='w-[80%]'>
+                                                <div className='w-[80%] text-sm sm:text-base'>
                                                     Inteligencia que procesa información y experiencia para entregar estrategia.
                                                 </div>
                                             </div>
                                             <div className='w-1/2 info-header text-black'>
-                                                <div className='w-[80%]'>
+                                                <div className='w-[80%] text-sm sm:text-base'>
                                                     Evaluar posibles proyectos de Economía Circular informando el posible impacto.
                                                 </div>
                                             </div>
@@ -943,12 +941,12 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-2xl text-roboto font-bold text-start mb-5'>Pregunta 1.4: ¿Cuán prioritaria es la economía circular en su estrategia actual de sostenibilidad y cómo ve su relevancia para el futuro de su empresa?</h1>
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 1.4: ¿Cuán prioritaria es la economía circular en su estrategia actual de sostenibilidad y cómo ve su relevancia para el futuro de su empresa?</h1>
                                     <textarea
                                         className="text-area w-full h-52"
                                         maxLength="2000"
@@ -958,8 +956,8 @@ const Welcome = () => {
                                 </div>
 
                             </div>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={questionimg1_4} className='h-full w-full' alt='Imagen' />
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={questionimg1_4} className='h-full w-full object-cover' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -981,15 +979,15 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={metricimg1_4} className='h-full w-full' alt='Imagen2' />
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={metricimg1_4} className='h-full w-full object-cover' alt='Imagen2' />
                             </div>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-xl text-roboto font-bold text-start mb-5'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
                                         Métrica 1.4: En una escala del 1 al 5, siendo 1 &ldquo;muy en desacuerdo&rdquo; y 5 &ldquo;muy de acuerdo&rdquo;. ¿Considera que la economía circular es relevante para el futuro de su empresa?
                                     </h1>
                                 </div>
@@ -1023,12 +1021,12 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-2xl text-roboto font-bold text-start mb-5'>Pregunta 2.4: Nuestro proyecto tiene como propósito ofrecer un sistema inteligente que ayuda a las empresas a implementar y mejorar la aplicación de la economía circular. ¿Cree que un sistema como este podría ayudar a su empresa a avanzar hacia una operación más circular? ¿Por qué?</h1>
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 2.4: Nuestro proyecto tiene como propósito ofrecer un sistema inteligente que ayuda a las empresas a implementar y mejorar la aplicación de la economía circular. ¿Cree que un sistema como este podría ayudar a su empresa a avanzar hacia una operación más circular? ¿Por qué?</h1>
                                     <textarea
                                         className="text-area w-full h-52"
                                         maxLength="2000"
@@ -1038,8 +1036,8 @@ const Welcome = () => {
                                 </div>
 
                             </div>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={questionimg2_4} className='h-full w-full' alt='Imagen' />
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={questionimg2_4} className='h-full w-full object-cover' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -1059,15 +1057,15 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={metricimg2_4} className='h-full w-full' alt='Imagen2' />
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={metricimg2_4} className='h-full w-full object-cover' alt='Imagen2' />
                             </div>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-xl text-roboto font-bold text-start mb-5'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
                                         Métrica 2.4: En una escala del 1 al 5, siendo 1 &ldquo;muy en desacuerdo&rdquo; y 5 &ldquo;muy de acuerdo&rdquo;. ¿Considera que un sistema como el que propone CircularIA ayudaría a solucionar problemas reales para avanzar hacia una organización y producción más circular?
                                     </h1>
                                 </div>
@@ -1101,9 +1099,9 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
                             <div className='w-screen flex flex-col items-center justify-center'>
                                 <div className='w-full'>
                                     <h1 className='text-2xl text-roboto font-bold text-center mt-10'>Validación 5: Contexto</h1>
@@ -1129,12 +1127,12 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-2xl text-roboto font-bold text-start mb-5'>Pregunta 1.5: En su opinión, ¿qué impacto tendría un software que le proporciona recomendaciones sobre indicadores y estrategias de economía circular en la eficiencia de la toma de decisiones en su empresa?</h1>
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 1.5: En su opinión, ¿qué impacto tendría un software que le proporciona recomendaciones sobre indicadores y estrategias de economía circular en la eficiencia de la toma de decisiones en su empresa?</h1>
                                     <textarea
                                         className="text-area w-full h-52"
                                         maxLength="2000"
@@ -1144,8 +1142,8 @@ const Welcome = () => {
                                 </div>
 
                             </div>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={questionimg1_5} className='h-full w-full' alt='Imagen' />
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={questionimg1_5} className='h-full w-full object-cover' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -1167,15 +1165,15 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={metricimg1_5} className='h-full w-full' alt='Imagen2' />
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={metricimg1_5} className='h-full w-full object-cover' alt='Imagen2' />
                             </div>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-xl text-roboto font-bold text-start mb-5'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
                                         Métrica 1.5: En una escala del 1 al 5, siendo 1 &ldquo;muy en desacuerdo&rdquo; y 5 &ldquo;muy de acuerdo&rdquo;. ¿Considera que poder acceder a un software que ayuda a gestionar la estrategia de Economía Circular y sostenibilidad puede potenciar su estrategia de Economía Circular?
                                     </h1>
                                 </div>
@@ -1209,12 +1207,12 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-2xl text-roboto font-bold text-start mb-5'>Pregunta 2.5: ¿Considera que la identificación de procesos clave para reforzar la estrategia de economía circular y las sugerencias sobre posibles inversiones podrían ayudar a su empresa a realizar una transición más suave hacia la economía circular?</h1>
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 2.5: ¿Considera que la identificación de procesos clave para reforzar la estrategia de economía circular y las sugerencias sobre posibles inversiones podrían ayudar a su empresa a realizar una transición más suave hacia la economía circular?</h1>
                                     <textarea
                                         className="text-area w-full h-52"
                                         maxLength="2000"
@@ -1224,8 +1222,8 @@ const Welcome = () => {
                                 </div>
 
                             </div>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={questionimg2_5} className='h-full w-full' alt='Imagen' />
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={questionimg2_5} className='h-full w-full object-cover' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -1245,15 +1243,15 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={metricimg2_5} className='h-full w-full' alt='Imagen2' />
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={metricimg2_5} className='h-full w-full object-cover' alt='Imagen2' />
                             </div>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-xl text-roboto font-bold text-start mb-5'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
                                         Métrica 2.5: En una escala del 1 al 5, siendo 1 &ldquo;muy en desacuerdo&rdquo; y 5 &ldquo;muy de acuerdo&rdquo;. ¿Considera que una funcionalidad que identifica procesos claves y posibles inversiones puede ayudar a fomentar los proyectos de Economía Circular dentro de la empresa?
                                     </h1>
                                 </div>
@@ -1287,9 +1285,9 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
                             <div className='w-screen  flex flex-col items-center justify-start'>
                                 <div className='w-full h-screen'>
                                     <h1 className='text-2xl text-roboto font-bold text-center mt-10'>Validación 6: Contexto</h1>
@@ -1340,12 +1338,12 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-2xl text-roboto font-bold text-start mb-5'>Pregunta 1.6: ¿Cómo ve el potencial de nuestra plataforma para gestionar eficazmente una estrategia de economía circular, en comparación con las herramientas digitales que se utilizan para la gestión de proyectos?</h1>
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 1.6: ¿Cómo ve el potencial de nuestra plataforma para gestionar eficazmente una estrategia de economía circular, en comparación con las herramientas digitales que se utilizan para la gestión de proyectos?</h1>
                                     <textarea
                                         className="text-area w-full h-52"
                                         maxLength="2000"
@@ -1355,8 +1353,8 @@ const Welcome = () => {
                                 </div>
 
                             </div>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={questionimg1_6} className='h-full w-full' alt='Imagen' />
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={questionimg1_6} className='h-full w-full object-cover' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -1378,16 +1376,16 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex items-center justify-center relative'>
-                                <img src={metricimg1_6} className='h-full w-full' alt='Imagen de fondo' />
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-center justify-center relative'>
+                                <img src={metricimg1_6} className='h-full w-full object-cover' alt='Imagen de fondo' />
                                 <img src={logometric1_6} className='absolute h-68 w-68' alt='Logo' />
                             </div>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-xl text-roboto font-bold text-start mb-5'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
                                         Métrica 1.6: En una escala del 1 al 5, donde 1 es muy poco eficaz y 5 es altamente eficaz. ¿Cómo calificaría la capacidad de nuestra plataforma CircularIA para gestionar una estrategia de economía circular en comparación con otras herramientas digitales que ha utilizado?
                                     </h1>
                                 </div>
@@ -1421,12 +1419,12 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-2xl text-roboto font-bold text-start mb-5'>Pregunta 2.6: ¿Siente que la falta de una herramienta digital específica para gestionar las estrategias de economía circular ha afectado a su capacidad para implementar efectivamente dichas estrategias?</h1>
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 2.6: ¿Siente que la falta de una herramienta digital específica para gestionar las estrategias de economía circular ha afectado a su capacidad para implementar efectivamente dichas estrategias?</h1>
                                     <textarea
                                         className="text-area w-full h-52"
                                         maxLength="2000"
@@ -1436,8 +1434,8 @@ const Welcome = () => {
                                 </div>
 
                             </div>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={questionimg2_6} className='h-full w-full' alt='Imagen' />
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={questionimg2_6} className='h-full w-full object-cover' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -1457,15 +1455,15 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={metricimg2_6} className='h-full w-full' alt='Imagen2' />
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={metricimg2_6} className='h-full w-full object-cover' alt='Imagen2' />
                             </div>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-xl text-roboto font-bold text-start mb-5'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
                                         Métrica 2.6: En una escala del 1 al 5, donde 1 significa que no afecta en absoluto y 5 significa que ha afectado significativamente. ¿Cómo percibe que la falta de una herramienta digital específica ha impactado su capacidad para implementar efectivamente estrategias de economía circular?
                                     </h1>
                                 </div>
@@ -1499,9 +1497,9 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
                             <div className='w-screen flex flex-col items-center justify-center'>
                                 <h1 className='text-2xl text-roboto font-bold text-center mb-5'>Validación 7: Contexto</h1>
                                 <h1 className='text-3xl text-roboto font-bold text-center mb-5'>Autocapacitación mientras se usa</h1>
@@ -1525,12 +1523,12 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-3/5 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-2xl text-roboto font-bold text-start mb-5'>Pregunta 1.7: ¿Cómo evaluaría la importancia de una plataforma educativa que ofrece formación en tiempo real sobre conceptos de economía circular, que a su vez puede abrir oportunidades de negocio y empleo para su empresa?</h1>
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-3/5 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 1.7: ¿Cómo evaluaría la importancia de una plataforma educativa que ofrece formación en tiempo real sobre conceptos de economía circular, que a su vez puede abrir oportunidades de negocio y empleo para su empresa?</h1>
                                     <textarea
                                         className="text-area w-full h-52"
                                         maxLength="2000"
@@ -1540,8 +1538,8 @@ const Welcome = () => {
                                 </div>
 
                             </div>
-                            <div className='w-2/5 flex items-end justify-end'>
-                                <img src={questionimg1_7} className='h-full w-full' alt='Imagen' />
+                            <div className='h-1/2 sm:h-full sm:w-2/5 flex items-end justify-end'>
+                                <img src={questionimg1_7} className='h-full w-full object-cover' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -1563,15 +1561,15 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={metricimg1_7} className='h-full w-full' alt='Imagen2' />
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={metricimg1_7} className='h-full w-full object-cover' alt='Imagen2' />
                             </div>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-xl text-roboto font-bold text-start mb-5'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
                                         Métrica 1.7: En una escala del 1 al 5, siendo 1 &ldquo;no importante&rdquo; y 5 &ldquo;muy importante&rdquo;. ¿Cuán importante sería para usted tener acceso a dicha plataforma?
                                     </h1>
                                 </div>
@@ -1605,12 +1603,12 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-2xl text-roboto font-bold text-start mb-5'>Pregunta 2.7: Al pensar en plataformas educativas online que haya usado en el pasado, ¿cuáles son las características que más valora y qué esperaría de una que enseñe sobre economía circular?</h1>
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 2.7: Al pensar en plataformas educativas online que haya usado en el pasado, ¿cuáles son las características que más valora y qué esperaría de una que enseñe sobre economía circular?</h1>
                                     <textarea
                                         className="text-area w-full h-52"
                                         maxLength="2000"
@@ -1620,8 +1618,8 @@ const Welcome = () => {
                                 </div>
 
                             </div>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={questionimg2_7} className='h-full w-full' alt='Imagen' />
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={questionimg2_7} className='h-full w-full object-cover' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -1641,15 +1639,15 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-1/2 flex items-end justify-end'>
-                                <img src={metricimg2_7} className='h-full w-full' alt='Imagen2' />
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={metricimg2_7} className='h-full w-full object-cover' alt='Imagen2' />
                             </div>
-                            <div className='w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-20'>
-                                    <h1 className='text-xl text-roboto font-bold text-start mb-5'>
+                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
                                         Métrica 2.7: Considerando los beneficios potenciales y las funcionalidades que ofrece nuestra plataforma de economía circular para su estrategia de sostenibilidad. ¿Cuál sería un rango de precio mensual que su empresa estaría dispuesta a invertir para acceder a esta herramienta?
                                     </h1>
                                 </div>
@@ -1683,17 +1681,17 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
                         <div className='h-screen w-full flex'>
                             <div className='w-full flex flex-col items-center justify-center'>
                                 <h1 className='text-xl text-center text-roboto font-bold text-start mb-5'>
                                     ¿Confirma el envío de sus respuestas?
                                 </h1>
-                                <button className='button-login' style={{ width: '50%' }} onClick={submitSurvey}>
+                                <button className='button-login text-xs sm:text-sm md:text-base' style={{ width: '50%' }} onClick={submitSurvey}>
                                     Sí, deseo proceder con el envío de mis respuestas.
                                 </button>
-                                <button className='button-login' style={{ width: '50%' }} onClick={handlePreviousQuestion}>
+                                <button className='button-login text-xs sm:text-sm md:text-base' style={{ width: '50%' }} onClick={handlePreviousQuestion}>
                                     No, prefiero revisar mis respuestas antes de enviarlas.
                                 </button>
                             </div>
@@ -1707,21 +1705,20 @@ const Welcome = () => {
                 classNames='question-transition'
                 unmountOnExit
             >
-                <div className="bg-gray-500 ">
-                    <div className='contenedor'>
-                        <div className='h-screen w-full flex'>
-                            <div className='w-full flex flex-col items-center justify-center'>
-                                <div className='flex flex-col items-center justify-center relative'>
-                                    <img src={thanks_bg} className='h-full w-full' alt='Imagen de fondo' />
-                                    <img src={logometric1_6} className='absolute h-68 w-68 top-20 lg:top-40' alt='Logo' />
-                                    <p className='text-4xl absolute top-30 text-center p-6 text-roboto text-white font-bold mt-20 mb-5'>
+                <div className="min-h-screen min-w-full flex items-stretch">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor flex items-stretch' : 'flex items-stretch'}`}>
+                        <div className='min-h-screen min-w-full flex items-stretch'>
+                            <div className='w-full flex flex-col items-center justify-center relative'>
+                                <img src={thanks_bg} className='min-h-full min-w-full object-cover absolute inset-0' alt='Imagen de fondo' />
+                                <div className='z-10 flex flex-col items-center justify-center'>
+                                    <img src={logometric1_6} className='absolute top-0 mt-5 lg:mt-10' alt='Logo' />
+                                    <p className='md:absolute text-xl sm:text-2xl md:text-4xl text-center p-6 text-roboto text-white font-bold mt-20 mb-5'>
                                         En nombre de CircularIA te agradecemos por haberte dado el tiempo de responder nuestra encuesta.
                                     </p>
-                                    <button className='absolute bottom-20 lg:bottom-40 button-login' style={{ width: '50%' }} onClick={() => navigate("/")}>
+                                    <button className='absolute bottom-20 lg:bottom-40 button-login text-sm sm:text-base' style={{ width: '50%' }} onClick={() => navigate("/")}>
                                         Volver a la página comercial
                                     </button>
                                 </div>
-
                             </div>
                         </div>
                     </div>
