@@ -162,8 +162,8 @@
   position: absolute;
   top: 10%;
   left: 5%;
-  width: 50%;
-  padding: 20px; /* Puedes ajustar el padding según lo necesites */
+  width: 60%;
+  padding: 10px; /* Puedes ajustar el padding según lo necesites */
 }
 
 .text-container p {
@@ -171,6 +171,13 @@
   font-size: 3.7em; /* Cambia este valor para ajustar el tamaño del texto */
   color: #fff; /* Cambia este valor para ajustar el color del texto */
   font-weight: 600;
+}
+
+.text-container h1 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 3.2em; /* Cambia este valor para ajustar el tamaño del texto */
+  color: #fff; /* Cambia este valor para ajustar el color del texto */
+  font-weight: 200;
 }
 
 @media screen and (max-width: 480px) {
@@ -344,7 +351,7 @@
 
 .contactus-container {
   margin: 0 auto;
-  margin-top: 2rem;
+  margin-top: 1rem;
   display: flex;
   justify-content: space-between;
 }

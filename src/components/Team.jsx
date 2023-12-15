@@ -24,7 +24,7 @@ const Team = () => {
   return (
     <div id="equipo" className={styles.aboutSection}>
       <div className="text-roboto">
-        <h1 className={`${styles.aboutText} text-3xl 2k:text-5xl 2k:text-6xl text-black font-bold mt-10`}>Nuestro Equipo</h1>
+        <h1 className={`${styles.aboutText} text-3xl 2k:text-5xl 2k:text-6xl text-black font-bold mt-10`}>Nuestro Equipo: Prosperse Technologies</h1>
       </div>
       <div style={linea}></div>
       <div className="team-members-container mt-10">

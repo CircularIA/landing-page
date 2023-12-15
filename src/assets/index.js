@@ -3,10 +3,10 @@ import menu from "./menu.svg";
 import close from "./close.svg";
 import rectangle1 from "./rectangle1.png";
 import icon1 from "./icon1.svg";
+import icon2 from "./icon2.svg";
 import collab1 from "./collab1.svg";
-import collab2 from "./collab2.svg";
+import collab2 from "./collab2.jpeg";
 import collab3 from "./collab3.svg";
-import collab4 from "./collab4.svg";
 import teamMember1 from "./teamMember1.png";
 import teamMember2 from "./teamMember2.png";
 import teamMember3 from "./teamMember3.png";
@@ -24,10 +24,10 @@ export {
   close,
   rectangle1,
   icon1,
+  icon2,
   collab1,
   collab2,
   collab3,
-  collab4,
   teamMember1,
   teamMember2,
   teamMember3,

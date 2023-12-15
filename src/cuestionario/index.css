@@ -60,6 +60,10 @@
     background: #0DFF6E;
 }
 
+.button-login:disabled {
+    background: #989898;
+}
+
 .navigation-buttons {
     position: absolute;
     top: 50%;
@@ -68,6 +72,7 @@
     display: flex;
     justify-content: space-between;
     padding: 0 1.8%;
+    pointer-events: none;
 }
 
 .navigation-button {
@@ -83,14 +88,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    pointer-events: auto;
 }
 
 @media screen and (max-width: 480px) {
-    .navigation-button{
+    .navigation-button {
         width: 13%;
         opacity: 60%;
 
-    }    
+    }
 }
 
 .navigation-button:hover {
@@ -104,6 +110,11 @@
 
 .navigation-button.right {
     margin-right: 0;
+}
+
+.navigation-button:disabled {
+    background-color: #989898;
+    color: #555454;
 }
 
 
@@ -123,6 +134,13 @@
     border: none;
     cursor: pointer;
     transition: background-color 0.7s ease;
+}
+
+@media only screen and (max-width: 600px) {
+    .button-cuestionary {
+        margin-top: 3%;
+        font-size: 60%;
+    }
 }
 
 .button-cuestionary:focus {
@@ -211,4 +229,46 @@
     background-color: #00B971;
     /* Color cuando está seleccionado */
     color: #FFF;
+}
+
+/* Estilos por defecto para computadores */
+
+fieldset.likertScale {
+    font-family: "Roboto", sans-serif;
+    padding: 1em;
+    border-radius: 1em;
+}
+
+fieldset.likertScale .likertIndicator {
+    background-color: #949494;
+    border-color: #333;
+}
+
+fieldset.likertScale input[type="radio"]:checked~.likertIndicator {
+    background-color: #00B971;
+}
+
+/* Estilos para celulares (xs) */
+
+@media (max-width: 576px) {
+
+    /* Generalmente, 576px es el punto de corte para celulares */
+    fieldset.likertScale {
+        /* Ajustes específicos para celulares, por ejemplo: */
+        padding: 0em;
+        font-size: xx-small;
+        overflow-x: scroll;
+    }
+}
+
+/* Estilos para tablets (md) */
+
+@media (min-width: 768px) and (max-width: 992px) {
+
+    /* Generalmente, el rango 768px - 992px es el punto de corte para tablets */
+    fieldset.likertScale {
+        /* Ajustes específicos para tablets, por ejemplo: */
+        padding: 0.8em;
+        font-size: 70%;
+    }
 }
