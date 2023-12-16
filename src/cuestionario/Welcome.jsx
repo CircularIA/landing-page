@@ -4,7 +4,7 @@ import Likert from 'react-likert-scale'
 import { useNavigate } from 'react-router-dom'
 import "./index.css"
 import { CSSTransition } from 'react-transition-group'
-import WelcomeImg from '../assets/Welcome.svg'
+import WelcomeImg from '../assets/welcome.svg'
 import questionimg1_1 from '../assets/questionimg1_1.jpg'
 import questionimg1_2 from '../assets/questionimg1_2.jpg'
 import questionimg2_1 from '../assets/questionimg2_1.jpg'
