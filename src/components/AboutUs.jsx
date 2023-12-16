@@ -1,5 +1,6 @@
 import { icon1, icon2 } from '../assets';
 import styles from '../style';
+import './about-us.css'
 import { Carousel, Typography } from "@material-tailwind/react";
 import AnimatedOnScroll from './AnimatedOnScroll';
 import 'atropos/css';
@@ -17,6 +18,7 @@ const linea = {
   margin: '0 auto',
   marginTop: '1rem',
 }
+
 
 const AboutUs = () => {
   const images = [
@@ -134,5 +136,7 @@ const AboutUs = () => {
     </div>
   );
 };
+
+
 
 export default AboutUs;

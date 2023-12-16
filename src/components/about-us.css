@@ -1,0 +1,7 @@
+.atropos-scale {
+    pointer-events: none;
+}
+
+.atropos-rotate {
+    pointer-events: all;
+}
