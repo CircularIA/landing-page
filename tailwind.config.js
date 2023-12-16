@@ -25,6 +25,7 @@ module.exports = withMT({
       },
       backgroundImage: theme => ({
         'navbar-gradient': `linear-gradient(to right, ${theme('colors.gradientStart')}, ${theme('colors.gradientEnd')})`,
+        'contact-us-gradient': `linear-gradient(to bottom, ${theme('colors.gradientStart')}, ${theme('colors.gradientEnd')})`,
       }),
     },
     screens: {

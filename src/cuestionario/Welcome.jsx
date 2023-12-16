@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React, { useState } from 'react'
+import Likert from 'react-likert-scale'
 import { useNavigate } from 'react-router-dom'
 import "./index.css"
 import { CSSTransition } from 'react-transition-group';
@@ -27,50 +28,61 @@ import metricimg2_5 from '../assets/metricimg2-5.jpg'
 import questionimg1_6 from '../assets/questionimg1-6.jpg'
 import metricimg1_6 from '../assets/metricimg1-6.png'
 import logometric1_6 from '../assets/logo-metric1-6.svg'
-import questionimg2_6 from '../assets/questionimg2-6.jpg'
-import metricimg2_6 from '../assets/metricimg2-6.jpg'
-import questionimg1_7 from '../assets/questionimg1-7.jpg'
-import metricimg1_7 from '../assets/metricimg1-7.jpg'
-import questionimg2_7 from '../assets/questionimg2-7.jpg'
-import metricimg2_7 from '../assets/metricimg2-7.jpg'
 import thanks_bg from '../assets/bg-thanks.svg'
-import drop from '../assets/drop.svg';
-import co2 from '../assets/co2.svg';
-import entry from '../assets/entry.svg'
-import solarPower from '../assets/solar-power.svg'
-import ambientalCulture from '../assets/ambiental-culture.svg'
-import people from '../assets/people.svg'
-import office from '../assets/office.svg'
-import security from '../assets/security.svg'
-import connect from '../assets/connect.svg'
-import handshake from '../assets/handshake.svg'
-import moneyBag from '../assets/money-bag.svg'
-import moneyHand from '../assets/money-hand.svg'
-import piggyBank from '../assets/piggy-bank.svg'
-import context2_1 from '../assets/context2-1.png'
-import context2_2 from '../assets/context2-2.png'
-import context5 from '../assets/context5.png'
-import context7 from '../assets/context7.png'
+import { Radio } from "@material-tailwind/react";
 
 const Welcome = () => {
     const navigate = useNavigate()
     const [nombre, setNombre] = useState("")
+    const [correo, setCorreo] = useState("")
+    const [showOtherInput, setShowOtherInput] = useState(false);
+    const [areButtonsEnabled, setAreButtonsEnabled] = useState(false);
+    const [visitedPages, setVisitedPages] = useState([]);
     const [responses, setResponses] = useState({
         'Pregunta 1.1': '',
+        'Pregunta 1.2': [],
+        'Extra 1.2': '',
         'Pregunta 2.1': '',
-        'Pregunta 1.2': '',
         'Pregunta 2.2': '',
-        'Pregunta 1.3': '',
-        'Pregunta 2.3': '',
-        'Pregunta 1.4': '',
-        'Pregunta 2.4': '',
-        'Pregunta 1.5': '',
-        'Pregunta 2.5': '',
-        'Pregunta 1.6': '',
-        'Pregunta 2.6': '',
-        'Pregunta 1.7': '',
-        'Pregunta 2.7': '',
+        'Pregunta 3.1': '',
+        'Extra 3.1': '',
+        'Pregunta 3.2': '',
+        'Pregunta 3.3': [],
+        'Pregunta 4.1': '',
+        'Pregunta 4.2': '',
+        'Pregunta 4.3': '',
+        'Extra 4.3': '',
+        'Pregunta 5.1': '',
+        'Pregunta 5.2': '',
+        'Pregunta 5.3': '',
+        'Pregunta 6.1': '',
+        'Pregunta 6.2': '',
+        'Extra 6.2': '',
+        'Pregunta 7.1': '',
+        'Extra 7.1': '',
+        'Pregunta 7.2': '',
+        'Pregunta 7.3': '',
     });
+
+    const handleRadioChange = (itemIndex, level) => {
+        setResponses(prevResponses => {
+            const newResponses = {
+                ...prevResponses,
+                'Pregunta 3.3': {
+                    ...prevResponses['Pregunta 3.3'],
+                    [itemIndex]: level
+                }
+            };
+
+            // Verificar si todos los campos están seleccionados
+            const allFieldsSelected = Object.keys(newResponses['Pregunta 3.3']).length === 9; // Total de items a responder
+
+            // Habilitar o deshabilitar los botones basado en si todos los campos están seleccionados
+            setAreButtonsEnabled(allFieldsSelected);
+
+            return newResponses;
+        });
+    };
 
     const handleTextChange = (questionKey, newValue) => {
         setResponses({
@@ -78,48 +90,35 @@ const Welcome = () => {
             [questionKey]: newValue,
         });
     };
-    const [selectedScales, setSelectedScales] = useState({
-        'Métrica 1.1': '',
-        'Métrica 2.1': '',
-        'Métrica 1.2': '',
-        'Métrica 2.2': '',
-        'Métrica 1.3': '',
-        'Métrica 2.3': '',
-        'Métrica 1.4': '',
-        'Métrica 2.4': '',
-        'Métrica 1.5': '',
-        'Métrica 2.5': '',
-        'Métrica 1.6': '',
-        'Métrica 2.6': '',
-        'Métrica 1.7': '',
-        'Métrica 2.7': '',
-    });
 
-    const updateScale = (key, value) => {
-        setSelectedScales({
-            ...selectedScales,
-            [key]: value,
-        });
+    const likertOptions = {
+        responses: [
+            { value: "No importante en absoluto", text: "No importante en absoluto" },
+            { value: "Ligeramente importante", text: "Ligeramente importante" },
+            { value: "Moderadamente importante", text: "Moderadamente importante" },
+            { value: "Muy importante", text: "Muy importante" },
+            { value: "Extremadamente importante", text: "Extremadamente importante" }
+        ].map(response => ({
+            ...response,
+            checked: response.value === responses['Pregunta 7.1']
+        })),
+        onChange: val => {
+            setResponses(prevResponses => ({
+                ...prevResponses,
+                'Pregunta 7.1': val.value
+            }));
+            setAreButtonsEnabled(true);
+        }
     };
 
     const submitSurvey = async () => {
         try {
-            const formattedResponses = Object.keys(responses).map(id => ({
-                id,
-                text: responses[id],
-            }));
-
-            const formattedScales = Object.keys(selectedScales).map(id => ({
-                id,
-                value: selectedScales[id],
-            }));
-
+            console.log(responses)
             const surveyData = {
                 name: nombre,
-                responses: formattedResponses,
-                selectedScales: formattedScales,
+                email: correo,
+                responses: responses,
             };
-
             const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/survey/`, {
                 method: 'POST',
                 headers: {
@@ -143,12 +142,105 @@ const Welcome = () => {
     const [currentQuestion, setCurrentQuestion] = useState(1);
 
     const handleNextQuestion = () => {
-        setCurrentQuestion(currentQuestion + 1);
+        let nextQuestion = currentQuestion + 1;
+        if (nextQuestion === 3 && !(responses['Pregunta 1.1'] === 'Sí')) {
+            nextQuestion++; // Saltar la próxima pregunta
+        }
+        if (nextQuestion === 7 && !['Extremadamente positivo', 'Muy positivo'].includes(responses['Pregunta 3.1'])) {
+            nextQuestion++;
+        }
+        if (nextQuestion === 13 && responses['Pregunta 4.3'] === 'Neutral') {
+            nextQuestion++;
+        }
+        if (!visitedPages.includes(currentQuestion)) {
+            setVisitedPages([...visitedPages, currentQuestion]);
+        }
+        if (!visitedPages.includes(nextQuestion)) {
+            setAreButtonsEnabled(false);
+        }
+        setCurrentQuestion(nextQuestion);
     };
+
     const handlePreviousQuestion = () => {
-        setCurrentQuestion(currentQuestion - 1);
+        let previousQuestion = currentQuestion - 1;
+        if (previousQuestion === 3 && !(responses['Pregunta 1.1'] === 'Sí')) {
+            previousQuestion--; // Saltar la pregunta anterior
+        }
+        if (previousQuestion === 7 && !['Extremadamente positivo', 'Muy positivo'].includes(responses['Pregunta 3.1'])) {
+            previousQuestion--;
+        }
+        if (previousQuestion === 13 && responses['Pregunta 4.3'] === 'Neutral') {
+            previousQuestion--;
+        }
+        if (visitedPages.includes(previousQuestion)) {
+            setAreButtonsEnabled(true);
+        }
+        setCurrentQuestion(previousQuestion);
     };
+
     const width = window.innerWidth
+
+    function handleUniqueResponse(question, answer) {
+        setResponses(prevResponses => {
+            const newResponses = {
+                ...prevResponses,
+                [question]: answer
+            };
+
+            // Habilitar o deshabilitar botones basado en las nuevas respuestas
+            if (answer !== '') {
+                setAreButtonsEnabled(true);
+            }
+            return newResponses;
+        });
+    }
+
+    const handleMultipleResponses = (question, answer) => {
+        setResponses(prevResponses => {
+            const newResponses = { ...prevResponses };
+            const currentQuestionResponses = newResponses[question] || [];
+
+            if (currentQuestionResponses.includes(answer)) {
+                // Remover la respuesta si ya está presente
+                newResponses[question] = currentQuestionResponses.filter(a => a !== answer);
+            } else {
+                // Añadir la respuesta si no está presente
+                newResponses[question] = [...currentQuestionResponses, answer];
+            }
+            if (newResponses[question].includes('Otro')) {
+                setShowOtherInput(true)
+            }
+
+            // Habilitar o deshabilitar botones basado en las nuevas respuestas
+            if (newResponses[question].length > 0) {
+                setAreButtonsEnabled(true);
+            }
+            console.log(newResponses['Pregunta 1.2'])
+            return newResponses;
+        });
+    };
+
+
+    const items = [
+        "Evaluar a partir de indicadores",
+        "Generar reporte de sustentabilidad",
+        "Medir avances hacia metas y objetivos",
+        "Generar capacidades internas",
+        "Generar recomendaciones de acciones",
+        "Enseñar sobre economía circular",
+        "Ajustarse a los formatos más utilizados de reportabilidad",
+        "Compararte con el promedio de la industria",
+        "Detectar tus puntos más débiles/gaps en economía circular"
+    ];
+
+    const importanceLevels = [
+        "Nada importante",
+        "Poco importante",
+        "Neutral",
+        "Importante",
+        "Muy importante",
+    ];
+
     return (
         <div className='animate__animated animate__fadeIn'>
             <CSSTransition
@@ -174,7 +266,26 @@ const Welcome = () => {
                                         value={nombre}
                                         onChange={(e) => setNombre(e.target.value)}
                                     />
-                                    <button className='button-login' style={{ width: '50%' }} onClick={handleNextQuestion}>
+                                    <input
+                                        type="text"
+                                        placeholder="Introduce tu correo electrónico"
+                                        className='mt-3 p-2 border border-black rounded placeholder-gray-600'
+                                        style={{ width: '50%' }}
+                                        value={correo}
+                                        onChange={(e) => {
+                                            const email = e.target.value;
+
+                                            // Función para validar el correo electrónico
+                                            const isEmailValid = (email) => {
+                                                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                                                return emailPattern.test(email);
+                                            };
+
+                                            setAreButtonsEnabled(isEmailValid(email));
+                                            setCorreo(email);
+                                        }}
+                                    />
+                                    <button className='button-login' style={{ width: '50%' }} onClick={handleNextQuestion} disabled={!areButtonsEnabled}>
                                         ¡Empezar!
                                     </button>
                                 </div>
@@ -191,141 +302,16 @@ const Welcome = () => {
             >
                 <div className="">
                     <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
-                        <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='w-screen  flex flex-col items-center justify-start'>
-                                <div className='w-full'>
-                                    <h1 className='text-2xl text-roboto font-bold text-center mt-10 mb-5'>Validación 1: Contexto</h1>
-                                    <div className='flex w-full'>
-                                        <div className='w-1/3 h-screen'>
-                                            <div className='info-header bg-custom-light-green'>
-                                                <h1 className='text-sm sm:text-2xl text-roboto font-bold text-center'>
-                                                    Información Ambiental
-                                                </h1>
-                                            </div>
-                                            <div className='h-[70%] px-2 flex flex-col justify-center'>
-                                                <div className='flex mt-5'>
-                                                    <div className='w-1/2 text-center'>
-                                                        <img src={drop} alt="water" className="icon w-20" />
-                                                        <p className='text-xs sm:text-base'>Agua</p>
-                                                    </div>
-                                                    <div className='w-1/2 text-center'>
-                                                        <img src={solarPower} alt="solar power" className="icon w-20" />
-                                                        <p className='text-xs sm:text-base'>Energía</p>
-                                                    </div>
-                                                </div>
-                                                <div className='flex mt-5'>
-                                                    <div className='w-1/2 text-center'>
-                                                        <img src={co2} alt="co2" className="icon w-20" />
-                                                        <p className='text-xs sm:text-base'>Huella de carbono</p>
-                                                    </div>
-                                                    <div className='w-1/2 text-center'>
-                                                        <img src={entry} alt="entry" className="icon w-20" />
-                                                        <p className='text-xs sm:text-base'> Flujos de entrada y salida</p>
-                                                    </div>
-                                                </div>
-                                                <div className='flex justify-center mt-5'>
-                                                    <div>
-                                                        <img src={ambientalCulture} alt="ambiental culture" className="icon w-20" />
-                                                        <p className='text-center text-xs sm:text-base'>Cultura ambiental</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className='w-1/3 h-screen'>
-                                            <div className='info-header bg-custom-light-orange'>
-                                                <h1 className='text-sm sm:text-2xl text-roboto font-bold text-center'>
-                                                    Información Económica
-                                                </h1>
-                                            </div>
-                                            <div className='h-[80%] px-2 flex flex-col justify-center border-l-2 border-r-2 border-gray-400'>
-                                                <div className='flex'>
-                                                    <div className='w-1/2 text-center'>
-                                                        <img src={moneyBag} alt="people" className="icon w-20" />
-                                                        <p className='text-xs sm:text-base'>Ingreso circular</p>
-                                                    </div>
-                                                    <div className='w-1/2 text-center'>
-                                                        <img src={moneyHand} alt="office" className="icon w-20" />
-                                                        <p className='text-xs sm:text-base'>Inversión circular</p>
-                                                    </div>
-                                                </div>
-                                                <div className='flex justify-center mt-5'>
-                                                    <div>
-                                                        <img src={piggyBank} alt="handshake" className="icon w-20" />
-                                                        <p className='text-center text-xs sm:text-base'>Ahorro</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className='w-1/3 h-screen'>
-                                            <div className='info-header bg-custom-light-blue'>
-                                                <h1 className='text-sm sm:text-2xl text-roboto font-bold text-center'>
-                                                    Información Social
-                                                </h1>
-                                            </div>
-                                            <div className='h-[70%] px-2 flex flex-col justify-center'>
-                                                <div className='flex mt-5'>
-                                                    <div className='w-1/2 text-center'>
-                                                        <img src={people} alt="people" className="icon w-20" />
-                                                        <p className='text-xs sm:text-base'>Empleos creados</p>
-                                                    </div>
-                                                    <div className='w-1/2 text-center'>
-                                                        <img src={office} alt="office" className="icon w-20" />
-                                                        <p className='text-xs sm:text-base'>Cultura interna sostenible</p>
-                                                    </div>
-                                                </div>
-                                                <div className='flex mt-5'>
-                                                    <div className='w-1/2 text-center'>
-                                                        <img src={security} alt="security" className="icon w-20" />
-                                                        <p className='text-xs sm:text-base'>Seguridad</p>
-                                                    </div>
-                                                    <div className='w-1/2 text-center'>
-                                                        <img src={connect} alt="connect" className="icon w-20" />
-                                                        <p className='text-xs sm:text-base'>Sinergia industrial</p>
-                                                    </div>
-                                                </div>
-                                                <div className='flex justify-center mt-5'>
-                                                    <div>
-                                                        <img src={handshake} alt="handshake" className="icon w-20" />
-                                                        <p className='text-center text-xs sm:text-base'>Aporte social directo</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className='flex justify-center mb-5'>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='navigation-buttons'>
-                        <button className='navigation-button' onClick={handlePreviousQuestion}>
-                            &lt; {/* Flecha estilo "<" hacia la izquierda */}
-                        </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
-                            &gt; {/* Flecha estilo ">" hacia la derecha */}
-                        </button>
-                    </div>
-                </div>
-            </CSSTransition>
-            <CSSTransition
-                in={currentQuestion === 3}
-                timeout={500}
-                classNames='question-transition'
-                unmountOnExit
-            >
-                <div className="">
-                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
                         <div className='h-screen w-full flex flex-col sm:flex-row flex-col sm:flex-row'>
                             <div className='h-1/2 sm:w-1/2 sm:h-full flex flex-col items-center justify-center'>
                                 <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 1.1: En su empresa, ¿ocupan alguna plataforma o servicio que requiera compartir información sensible? Si es así, ¿qué medida de seguridad le entrega?</h1>
-                                    <textarea
-                                        className="text-area w-full h-52"
-                                        maxLength="2000"
-                                        value={responses['Pregunta 1.1']}
-                                        onChange={(e) => handleTextChange('Pregunta 1.1', e.target.value)}
-                                    />
+                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 1.1: En su empresa, ¿ocupan alguna plataforma o servicio que requiera compartir información sensible?</h1>
+                                    <button className={`button-cuestionary ${responses['Pregunta 1.1'] === 'Sí' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 1.1', 'Sí')}>
+                                        Sí
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 1.1'] === 'No' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 1.1', 'No')}>
+                                        No
+                                    </button>
                                 </div>
 
                             </div>
@@ -338,7 +324,7 @@ const Welcome = () => {
                         <button className='navigation-button' onClick={handlePreviousQuestion}>
                             &lt; {/* Flecha estilo "<" hacia la izquierda */}
                         </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
+                        <button className='navigation-button' onClick={handleNextQuestion} disabled={!areButtonsEnabled}>
                             &gt; {/* Flecha estilo ">" hacia la derecha */}
                         </button>
                     </div>
@@ -347,7 +333,7 @@ const Welcome = () => {
 
 
             <CSSTransition
-                in={currentQuestion === 4}
+                in={currentQuestion === 3}
                 timeout={500}
                 classNames='question-transition'
                 unmountOnExit
@@ -355,25 +341,44 @@ const Welcome = () => {
                 <div className="">
                     <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
                         <div className='h-screen w-full flex flex-col sm:flex-row flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={metricimg1_1} className='h-full w-full object-cover' alt='Imagen2' />
+                            <div className='h-1/5 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={questionimg1_2} className='h-full w-full object-cover' alt='Imagen2' />
                             </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
-                                        Métrica 1.1: En una escala del 1 al 5, donde 1 es &ldquo;cero riesgo&rdquo; y 5 es &ldquo;muy riesgoso&rdquo;. ¿Cuál es su percepción de riesgo en compartir la información mencionada en el contexto de la pregunta?
+                            <div className='h-full sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='w-full px-8 sm:px-12'>
+                                    <h1 className='text-xs lg:text-xl text-roboto font-bold text-justify mb-5'>
+                                        Pregunta 1.2 ¿Qué medidas de seguridad utiliza su empresa al compartir información sensible a través de esta plataforma o servicio? (selección múltiple)
                                     </h1>
-                                </div>
-                                <div className='scale-container'>
-                                    {[1, 2, 3, 4, 5].map((number) => (
-                                        <button
-                                            key={number}
-                                            className={`scale-option ${selectedScales['Métrica 1.1'] === number ? 'selected' : ''}`}
-                                            onClick={() => updateScale('Métrica 1.1', number)}
-                                        >
-                                            {number}
-                                        </button>
-                                    ))}
+
+                                    {/* Preguntas aquí */}
+                                    <button className={`button-cuestionary ${responses['Pregunta 1.2'].includes('Encriptación') ? 'selected' : ''}`} onClick={() => handleMultipleResponses('Pregunta 1.2', 'Encriptación')}>
+                                        Encriptación
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 1.2'].includes('Autenticación de dos factores') ? 'selected' : ''}`} onClick={() => handleMultipleResponses('Pregunta 1.2', 'Autenticación de dos factores')}>
+                                        Autenticación de dos factores
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 1.2'].includes('VPN (Red Privada Virtual)') ? 'selected' : ''}`} onClick={() => handleMultipleResponses('Pregunta 1.2', 'VPN (Red Privada Virtual)')}>
+                                        VPN (Red Privada Virtual)
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 1.2'].includes('Certificados de seguridad') ? 'selected' : ''}`} onClick={() => handleMultipleResponses('Pregunta 1.2', 'Certificados de seguridad')}>
+                                        Certificados de seguridad
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 1.2'].includes('Control de acceso basado en roles') ? 'selected' : ''}`} onClick={() => handleMultipleResponses('Pregunta 1.2', 'Control de acceso basado en roles')}>
+                                        Control de acceso basado en roles
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 1.2'].includes('Otro') ? 'selected' : ''}`} onClick={() => handleMultipleResponses('Pregunta 1.2', 'Otro')}>
+                                        Otro
+                                    </button>
+                                    {showOtherInput && responses['Pregunta 1.2'].includes('Otro') && (
+                                        <input
+                                            type="text"
+                                            className="text-area w-full h-12 mt-3"
+                                            maxLength="1000"
+                                            value={responses['Extra 1.2']}
+                                            placeholder="Por favor especifica"
+                                            onChange={(e) => handleUniqueResponse('Extra 1.2', e.target.value)}
+                                        />
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -382,12 +387,56 @@ const Welcome = () => {
                         <button className='navigation-button' onClick={handlePreviousQuestion}>
                             &lt; {/* Flecha estilo "<" hacia la izquierda */}
                         </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
+                        <button className='navigation-button' onClick={handleNextQuestion} disabled={!areButtonsEnabled}>
                             &gt; {/* Flecha estilo ">" hacia la derecha */}
                         </button>
                     </div>
                 </div>
             </CSSTransition>
+            <CSSTransition
+                in={currentQuestion === 4}
+                timeout={500}
+                classNames='question-transition'
+                unmountOnExit
+            >
+                <div className="">
+                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
+                        <div className='h-screen w-full flex flex-col sm:flex-row'>
+                            <div className='h-full sm:h-full sm:w-2/3 flex flex-col items-center justify-center overflow-y-scroll'>
+                                <div className='h-full sm:h-auto px-8 sm:px-12 md:px-10 mt-7 sm:mt-0'>
+                                    <h1 className='text-xs lg:text-xl text-roboto text-justify font-bold'>Pregunta 2.1: En el contexto de su trabajo actual, ¿qué experiencia tiene en la recolección y análisis de datos relacionados con la economía circular, especialmente en lo que respecta a flujos de recursos (ej. reciclaje, reutilización, renovación), transacciones económicas (ej. modelos de negocio basados en compartir o alquilar) y dinámicas sociales (ej. colaboración comunitaria, comportamientos de consumo sostenible)?</h1>
+                                    {/* Preguntas aquí */}
+                                    <button className={`button-cuestionary ${responses['Pregunta 2.1'] === 'Experto' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 2.1', 'Experto')}>
+                                        Experto: Recolecto y analizo estos datos regularmente y tengo un profundo entendimiento de cómo se relacionan con la economía circular.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 2.1'] === 'Intermedio' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 2.1', 'Intermedio')}>
+                                        Intermedio: Ocasionalmente recolecto y analizo estos datos y tengo una comprensión básica de su relación con la economía circular.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 2.1'] === 'Novato' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 2.1', 'Novato')}>
+                                        Novato: Rara vez recolecto o analizo estos datos y tengo un conocimiento limitado sobre la economía circular.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 2.1'] === 'Sin experiencia' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 2.1', 'Sin experiencia')}>
+                                        Sin experiencia: No tengo experiencia recolectando o analizando estos datos y no estoy familiarizado con la economía circular.
+                                    </button>
+                                </div>
+                            </div>
+                            <div className='h-1/3 sm:h-full sm:w-1/3 flex items-end justify-end'>
+                                <img src={questionimg2_1} className='h-full w-full object-cover' alt='Imagen' />
+                            </div>
+                        </div>
+                    </div>
+                    <div className='navigation-buttons'>
+                        <button className='navigation-button' onClick={handlePreviousQuestion}>
+                            &lt; {/* Flecha estilo "<" hacia la izquierda */}
+                        </button>
+                        <button className='navigation-button' onClick={handleNextQuestion} disabled={!areButtonsEnabled}>
+                            &gt; {/* Flecha estilo ">" hacia la derecha */}
+                        </button>
+                    </div>
+                </div>
+            </CSSTransition>
+
+
             <CSSTransition
                 in={currentQuestion === 5}
                 timeout={500}
@@ -397,20 +446,29 @@ const Welcome = () => {
                 <div className="">
                     <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
                         <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 2.1: Si garantizamos la encriptación, anonimización, y respaldamos nuestra seguridad con un contrato de confidencialidad, ¿se sentiría confiado compartiendo datos con nuestra plataforma? De no ser así, ¿qué medidas adicionales le brindarían esa confianza</h1>
-                                    <textarea
-                                        className="text-area w-full h-52"
-                                        maxLength="2000"
-                                        value={responses['Pregunta 2.1']}
-                                        onChange={(e) => handleTextChange('Pregunta 2.1', e.target.value)}
-                                    />
-                                </div>
-
+                            <div className='h-1/4 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={questionimg2_2} className='h-full w-full object-cover' alt='Imagen' />
                             </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={questionimg2_1} className='h-full w-full object-cover' alt='Imagen' />
+                            <div className='h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='w-full px-8 sm:px-12 md:px-10'>
+                                    <h1 className='text-xs lg:text-xl text-roboto text-justify font-bold'>Pregunta 2.2: Considerando un software que utiliza inteligencia artificial para automatizar la recolección y análisis de datos relacionados con la economía circular (flujos de recursos, transacciones económicas y dinámicas sociales), ¿qué tan útil cree que sería para usted y su organización?</h1>
+                                    {/* Preguntas aquí */}
+                                    <button className={`button-cuestionary ${responses['Pregunta 2.2'] === 'Extremadamente útil' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 2.2', 'Extremadamente útil')}>
+                                        Extremadamente útil: Sería una herramienta esencial para nuestras operaciones y decisiones.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 2.2'] === 'Muy útil' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 2.2', 'Muy útil')}>
+                                        Muy útil: Definitivamente lo consideraríamos para mejorar nuestros procesos.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 2.2'] === 'Moderadamente útil' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 2.2', 'Moderadamente útil')}>
+                                        Moderadamente útil: Podría ser útil, pero tendríamos que evaluarlo más a fondo.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 2.2'] === 'Poco útil' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 2.2', 'Poco útil')}>
+                                        Poco útil: No vemos una aplicación inmediata, pero podría tener potencial en el futuro.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 2.2'] === 'Nada útil' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 2.2', 'Nada útil')}>
+                                        Nada útil: No creemos que sea relevante para nuestras necesidades.
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -418,14 +476,12 @@ const Welcome = () => {
                         <button className='navigation-button' onClick={handlePreviousQuestion}>
                             &lt; {/* Flecha estilo "<" hacia la izquierda */}
                         </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
+                        <button className='navigation-button' onClick={handleNextQuestion} disabled={!areButtonsEnabled}>
                             &gt; {/* Flecha estilo ">" hacia la derecha */}
                         </button>
                     </div>
                 </div>
             </CSSTransition>
-
-
             <CSSTransition
                 in={currentQuestion === 6}
                 timeout={500}
@@ -435,26 +491,37 @@ const Welcome = () => {
                 <div className="">
                     <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
                         <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={metricimg2_1} className='h-full w-full object-cover' alt='Imagen2' />
-                            </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                            <div className='h-full sm:w-2/3 flex flex-col items-center justify-center'>
                                 <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
-                                        Métrica 2.1: En una escala del 1 al 5, siendo 1 &ldquo;nada confiable&rdquo; y 5 &ldquo;completamente confiable&rdquo;. ¿Cuánta confianza tendría en compartir datos bajo los instrumentos ya mencionados?
+                                    <h1 className='text-xs lg:text-xl text-roboto text-justify font-bold mb-2'>Pregunta 3.1: Dentro del marco de la economía circular, si tuvieras una herramienta que no
+                                        solo integra automáticamente datos con tu sistema actual (como SAP u otras
+                                        plataformas) sino que también reduce significativamente el tiempo (horas
+                                        hombre) en esfuerzo, ¿cómo evaluarías el impacto en la eficiencia de tu gestión
+                                        diaria?
                                     </h1>
+                                    <button className={`button-cuestionary ${responses['Pregunta 3.1'] === 'Extremadamente positivo' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 3.1', 'Extremadamente positivo')}>
+                                        Extremadamente positivo: Sería una transformación total en nuestra gestión,
+                                        ahorrando mucho tiempo y esfuerzo.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 3.1'] === 'Muy positivo' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 3.1', 'Muy positivo')}>
+                                        Muy positivo: Aportaría mejoras significativas y reduciría notablemente las
+                                        horas dedicadas a estas tareas.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 3.1'] === 'Neutral' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 3.1', 'Neutral')}>
+                                        Neutral: No estoy seguro de cuál sería el impacto.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 3.1'] === 'Poco positivo' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 3.1', 'Poco positivo')}>
+                                        Poco positivo: Puede aportar algo, pero no creo que se reduzca
+                                        considerablemente el tiempo.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 3.1'] === 'Ningún impacto positivo' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 3.1', 'Ningún impacto positivo')}>
+                                        Ningún impacto positivo: No veo cómo podría beneficiarnos en términos de
+                                        tiempo y esfuerzo.
+                                    </button>
                                 </div>
-                                <div className='scale-container'>
-                                    {[1, 2, 3, 4, 5].map((number) => (
-                                        <button
-                                            key={number}
-                                            className={`scale-option ${selectedScales['Métrica 2.1'] === number ? 'selected' : ''}`}
-                                            onClick={() => updateScale('Métrica 2.1', number)}
-                                        >
-                                            {number}
-                                        </button>
-                                    ))}
-                                </div>
+                            </div>
+                            <div className='h-1/4 sm:h-full sm:w-1/3 flex items-end justify-end'>
+                                <img src={questionimg3_1} className='h-full w-full object-cover' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -462,12 +529,14 @@ const Welcome = () => {
                         <button className='navigation-button' onClick={handlePreviousQuestion}>
                             &lt; {/* Flecha estilo "<" hacia la izquierda */}
                         </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
+                        <button className='navigation-button' onClick={handleNextQuestion} disabled={!areButtonsEnabled}>
                             &gt; {/* Flecha estilo ">" hacia la derecha */}
                         </button>
                     </div>
                 </div>
             </CSSTransition>
+
+
             <CSSTransition
                 in={currentQuestion === 7}
                 timeout={500}
@@ -477,12 +546,26 @@ const Welcome = () => {
                 <div className="">
                     <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
                         <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='w-screen  flex flex-col items-center justify-start'>
-                                <div className='w-full'>
-                                    <h1 className='text-2xl text-roboto font-bold text-center mt-10 mb-5'>Validación 2: Contexto</h1>
+                            <div className='h-2/5 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={extra3_1} className='h-full w-full object-cover' alt='Imagen2' />
+                            </div>
+                            <div className='h-3/5 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-10'>
+                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
+                                        Si ha respondido que el impacto sería positivo, ¿en qué áreas específicas de tu
+                                        gestión diaria ves mayor potencial de mejora gracias a esta integración y
+                                        reducción de tiempo?
+                                    </h1>
+                                    <textarea
+                                        className="text-area w-full h-30"
+                                        maxLength="2000"
+                                        value={responses['Extra 3.1']}
+                                        onChange={(e) => {
+                                            handleTextChange('Extra 3.1', e.target.value);
+                                            setAreButtonsEnabled(e.target.value.trim() !== ''); // habilitar o deshabilitar basado en si textarea está vacío
+                                        }}
+                                    />
                                 </div>
-                                <img src={context2_1} className='h-52 object-contain' alt='Logo' />
-                                <img src={context2_2} className='h-80 mt-2 object-contain' alt='Logo' />
                             </div>
                         </div>
                     </div>
@@ -490,7 +573,7 @@ const Welcome = () => {
                         <button className='navigation-button' onClick={handlePreviousQuestion}>
                             &lt; {/* Flecha estilo "<" hacia la izquierda */}
                         </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
+                        <button className='navigation-button' onClick={handleNextQuestion} disabled={!areButtonsEnabled}>
                             &gt; {/* Flecha estilo ">" hacia la derecha */}
                         </button>
                     </div>
@@ -505,20 +588,32 @@ const Welcome = () => {
                 <div className="">
                     <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
                         <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 1.2: ¿Cuál es su experiencia actual en la recolección de datos de los flujos de recursos, económicos y sociales en su trabajo? ¿En qué medida cree que un software de inteligencia artificial que automatiza la recolección de esta información sería útil para usted y su organización?</h1>
-                                    <textarea
-                                        className="text-area w-full h-52"
-                                        maxLength="2000"
-                                        value={responses['Pregunta 1.2']}
-                                        onChange={(e) => handleTextChange('Pregunta 1.2', e.target.value)}
-                                    />
+                            <div className='h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='max-w-4xl w-full px-8 sm:px-5 md:px-10'>
+                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-2'>Pregunta 3.2: Basándose en lo que conoce sobre nuestra plataforma, ¿considera que aporta
+                                        suficiente valor a su empresa como para adquirirla?</h1>
+                                    <button className={`button-cuestionary ${responses['Pregunta 3.2'] === 'Definitivamente sí' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 3.2', 'Definitivamente sí')}>
+                                        Definitivamente sí: Veo un gran valor en su plataforma para nuestra empresa.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 3.2'] === 'Probablemente sí' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 3.2', 'Probablemente sí')}>
+                                        Probablemente sí: Creo que podría ser beneficioso, pero necesito más
+                                        información.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 3.2'] === 'Neutral' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 3.2', 'Neutral')}>
+                                        Neutral: No estoy seguro de cuál sería el impacto.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 3.2'] === 'Probablemente no' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 3.2', 'Probablemente no')}>
+                                        Probablemente no: No creo que se adapte completamente a nuestras
+                                        necesidades.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 3.2'] === 'Definitivamente no' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 3.2', 'Definitivamente no')}>
+                                        Definitivamente no: No veo cómo podría beneficiarnos.
+                                    </button>
                                 </div>
 
                             </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={questionimg1_2} className='h-full w-full object-cover' alt='Imagen' />
+                            <div className='h-1/3 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={questionimg3_2} className='h-full w-full object-cover' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -526,14 +621,12 @@ const Welcome = () => {
                         <button className='navigation-button' onClick={handlePreviousQuestion}>
                             &lt; {/* Flecha estilo "<" hacia la izquierda */}
                         </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
+                        <button className='navigation-button' onClick={handleNextQuestion} disabled={!areButtonsEnabled}>
                             &gt; {/* Flecha estilo ">" hacia la derecha */}
                         </button>
                     </div>
                 </div>
             </CSSTransition>
-
-
             <CSSTransition
                 in={currentQuestion === 9}
                 timeout={500}
@@ -542,26 +635,65 @@ const Welcome = () => {
             >
                 <div className="">
                     <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
-                        <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={metricimg1_2} className='h-full w-full object-cover' alt='Imagen2' />
-                            </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
-                                        Métrica 1.2: En una escala del 1 al 5, donde 1 es &ldquo;no influiría en mis decisiones&rdquo; y 5 es &ldquo;sería un factor decisivo&rdquo;. ¿Cuánto peso daría a las recomendaciones del software en su proceso de toma de decisiones?
+                        <div className='h-screen w-full flex flex-row'>
+                            <div className='w-full flex flex-col items-center justify-center'>
+                                <div className='w-full'>
+                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-center mb-5'>
+                                        Pregunta 3.3: Por favor, evalúe la importancia de las siguientes funcionalidades de nuestra plataforma para su empresa.
                                     </h1>
-                                </div>
-                                <div className='scale-container'>
-                                    {[1, 2, 3, 4, 5].map((number) => (
-                                        <button
-                                            key={number}
-                                            className={`scale-option ${selectedScales['Métrica 1.2'] === number ? 'selected' : ''}`}
-                                            onClick={() => updateScale('Métrica 1.2', number)}
-                                        >
-                                            {number}
-                                        </button>
-                                    ))}
+                                    <div className="border border-black rounded-xl overflow-hidden overflow-x-scroll lg:overflow-x-hidden">
+                                        <table className="w-full bg-gray-300 table-responsive">
+                                            <thead>
+                                                <tr>
+                                                    <th className="px-6 align-middle border border-black py-3 border-l-0 border-r-0 border-t-0 text-sm">
+                                                    </th>
+                                                    {importanceLevels.map(level => (
+                                                        <th
+                                                            key={level}
+                                                            className="px-6 align-middle border border-black py-3 border-l-0 border-r-0 border-t-0 text-xs sm:text-sm">
+                                                            {level}
+                                                        </th>
+                                                    ))}
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {items.map((item, idx) => (
+                                                    <tr key={idx}>
+                                                        <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs sm:text-sm whitespace-nowrap p-4 text-left">
+                                                            {item}
+                                                        </th>
+                                                        {importanceLevels.map((level, levelIdx) => (
+                                                            <td
+                                                                key={levelIdx}
+                                                                className="border-t-0 px-6 text-center align-middle border-l-0 border-r-0 text-sm whitespace-nowrap p-1">
+                                                                <Radio
+                                                                    color='green'
+                                                                    className='bg-gray-400 border-green-200'
+                                                                    icon={
+                                                                        <svg
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            className="h-3 w-3"
+                                                                            viewBox="0 0 21 21"
+                                                                            fill="currentColor"
+                                                                        >
+                                                                            <circle cx="10" cy="11" r="9" />
+                                                                        </svg>
+
+                                                                    }
+                                                                    text="Option"
+                                                                    id={`opt-${idx}-${levelIdx}`}
+                                                                    name={`opt-${idx}`}
+                                                                    value={level}
+                                                                    defaultChecked={responses['Pregunta 3.3'][item] === level}
+                                                                    onChange={() => handleRadioChange(item, level)}
+                                                                />
+                                                            </td>
+                                                        ))}
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -570,7 +702,7 @@ const Welcome = () => {
                         <button className='navigation-button' onClick={handlePreviousQuestion}>
                             &lt; {/* Flecha estilo "<" hacia la izquierda */}
                         </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
+                        <button className='navigation-button' onClick={handleNextQuestion} disabled={!areButtonsEnabled}>
                             &gt; {/* Flecha estilo ">" hacia la derecha */}
                         </button>
                     </div>
@@ -585,20 +717,30 @@ const Welcome = () => {
                 <div className="">
                     <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
                         <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 2.2: En el contexto de la economía circular, donde la sistematización y la fluidez en el manejo de datos son cruciales, ¿cree que una integración automática de flujo de datos con su sistema actual (ejemplo SAP u otra plataforma) potenciaría significativamente su eficiencia y eficacia? ¿Cómo evaluaría el impacto de esta automatización sistematizada en su gestión diaria?</h1>
-                                    <textarea
-                                        className="text-area w-full h-52"
-                                        maxLength="2000"
-                                        value={responses['Pregunta 2.2']}
-                                        onChange={(e) => handleTextChange('Pregunta 2.2', e.target.value)}
-                                    />
+                            <div className='h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='w-full px-8 sm:px-12'>
+                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 4.1: ¿Qué nivel de prioridad tiene la economía circular en su estrategia actual de
+                                        sostenibilidad?</h1>
+                                    <button className={`button-cuestionary ${responses['Pregunta 4.1'] === 'Muy alta prioridad' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 4.1', 'Muy alta prioridad')}>
+                                        Muy alta prioridad: Es fundamental en nuestra estrategia actual.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 4.1'] === 'Alta prioridad' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 4.1', 'Alta prioridad')}>
+                                        Alta prioridad: Es importante, pero hay otros temas que también abordamos.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 4.1'] === 'Neutral' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 4.1', 'Neutral')}>
+                                        Neutral: No es ni prioritario ni secundario.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 4.1'] === 'Baja prioridad' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 4.1', 'Baja prioridad')}>
+                                        Baja prioridad: Lo consideramos, pero no es central en nuestra estrategia.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 4.1'] === 'Muy baja prioridad' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 4.1', 'Muy baja prioridad')}>
+                                        Muy baja prioridad: Actualmente no lo estamos considerando.
+                                    </button>
                                 </div>
 
                             </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={questionimg2_2} className='h-full w-full object-cover' alt='Imagen' />
+                            <div className='h-1/3 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={questionimg4_1} className='h-full w-full sm:object-contain md:object-fill' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -606,12 +748,14 @@ const Welcome = () => {
                         <button className='navigation-button' onClick={handlePreviousQuestion}>
                             &lt; {/* Flecha estilo "<" hacia la izquierda */}
                         </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
+                        <button className='navigation-button' onClick={handleNextQuestion} disabled={!areButtonsEnabled}>
                             &gt; {/* Flecha estilo ">" hacia la derecha */}
                         </button>
                     </div>
                 </div>
             </CSSTransition>
+
+
             <CSSTransition
                 in={currentQuestion === 11}
                 timeout={500}
@@ -621,25 +765,32 @@ const Welcome = () => {
                 <div className="">
                     <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
                         <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={metricimg2_2} className='h-full w-full object-cover' alt='Imagen2' />
+                            <div className='h-1/3 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={questionimg4_2} className='h-full w-full sm:object-contain md:object-fill' alt='Imagen2' />
                             </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
+                            <div className='h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='w-full px-8 sm:px-12'>
                                     <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
-                                        Métrica 2.2: En una escala del 1 al 5, donde 1 es &ldquo;no valioso&rdquo; y 5 es &ldquo;muy valioso&rdquo;. ¿Cuánto valoraría una integración directa con el sistema (SAP/Otra plataforma) de su empresa?
+                                        Pregunta 4.2: De cara al futuro, ¿cómo ve la relevancia de la economía circular para su
+                                        empresa?
                                     </h1>
-                                </div>
-                                <div className='scale-container'>
-                                    {[1, 2, 3, 4, 5].map((number) => (
-                                        <button
-                                            key={number}
-                                            className={`scale-option ${selectedScales['Métrica 2.2'] === number ? 'selected' : ''}`}
-                                            onClick={() => updateScale('Métrica 2.2', number)}
-                                        >
-                                            {number}
-                                        </button>
-                                    ))}
+                                    <button className={`button-cuestionary ${responses['Pregunta 4.2'] === 'Extremadamente relevante' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 4.2', 'Extremadamente relevante')}>
+                                        Extremadamente relevante: Será fundamental para nuestra supervivencia y
+                                        crecimiento.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 4.2'] === 'Muy relevante' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 4.2', 'Muy relevante')}>
+                                        Muy relevante: Será uno de los principales enfoques.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 4.2'] === 'Moderadamente relevante' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 4.2', 'Moderadamente relevante')}>
+                                        Moderadamente relevante: Lo consideraremos, pero habrá otros temas
+                                        igualmente importantes.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 4.2'] === 'Poco relevante' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 4.2', 'Poco relevante')}>
+                                        Poco relevante: No lo vemos como una tendencia principal para nosotros.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 4.2'] === 'Nada relevante' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 4.2', 'Nada relevante')}>
+                                        Nada relevante: No lo vemos relevante para el futuro de nuestra empresa.
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -648,7 +799,7 @@ const Welcome = () => {
                         <button className='navigation-button' onClick={handlePreviousQuestion}>
                             &lt; {/* Flecha estilo "<" hacia la izquierda */}
                         </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
+                        <button className='navigation-button' onClick={handleNextQuestion} disabled={!areButtonsEnabled}>
                             &gt; {/* Flecha estilo ">" hacia la derecha */}
                         </button>
                     </div>
@@ -663,54 +814,33 @@ const Welcome = () => {
                 <div className="">
                     <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
                         <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='w-screen  flex flex-col items-center justify-start'>
-                                <div className='w-full h-screen'>
-                                    <h1 className='text-2xl text-roboto font-bold text-center mt-10 mb-5'>Validación 3: Contexto</h1>
-                                    <div className='h-[80%] flex flex-col justify-center items-center text-center text-white'>
-                                        <div className='w-full flex flex-row gap-4 px-2 sm:px-6 md:px-8 py-4'>
-                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
-                                                Permite trazabilidad
-                                            </div>
-                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
-                                                Incentiva proyectos de Economía Circular
-                                            </div>
-                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
-                                                Monitorea la estrategia y corregirla
-                                            </div>
-                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
-                                                Gestiona proyectos
-                                            </div>
-                                        </div>
-                                        <div className='w-full flex flex-row gap-4 px-2 sm:px-6 md:px-8 py-4'>
-                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
-                                                Permite cumplir legislación y trazabilidad
-                                            </div>
-                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
-                                                Comunica y visibiliza resultados
-                                            </div>
-                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
-                                                Genera reportes
-                                            </div>
-                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
-                                                Contabiliza los avances hacia metas
-                                            </div>
-                                        </div>
-                                        <div className='w-full flex flex-row gap-4 px-2 sm:px-6 md:px-8 py-4'>
-                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
-                                                Aprende sobre Economía Circular
-                                            </div>
-                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
-                                                Comparación con promedio por industria
-                                            </div>
-                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
-                                                Revisa buenas practicas en base a evaluación
-                                            </div>
-                                            <div className='w-1/4 info-header bg-custom-dark-green text-xs sm:text-base'>
-                                                Gestiona proyectos de Economía Circular
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div className='h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='w-full px-8 sm:px-12'>
+                                    <h1 className='text-xs lg:text-xl text-roboto text-justify font-bold mb-5'>Pregunta 4.3: Dado nuestro enfoque en un sistema inteligente que apoya la implementación
+                                        y mejora de la economía circular, ¿considera que una herramienta como esta
+                                        sería beneficiosa para que su empresa avance hacia operaciones más
+                                        circulares?
+                                    </h1>
+                                    <button className={`button-cuestionary ${responses['Pregunta 4.3'] === 'Definitivamente sí' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 4.3', 'Definitivamente sí')}>
+                                        Definitivamente sí: Veo un gran potencial en este sistema para nuestra
+                                        empresa.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 4.3'] === 'Probablemente sí' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 4.3', 'Probablemente sí')}>
+                                        Probablemente sí: Puede ser beneficioso, pero necesitaría más información.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 4.3'] === 'Neutral' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 4.3', 'Neutral')}>
+                                        Neutral: No tengo una opinión formada al respecto.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 4.3'] === 'Probablemente no' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 4.3', 'Probablemente no')}>
+                                        Probablemente no: No creo que se ajuste a nuestras necesidades actuales.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 4.3'] === 'Definitivamente no' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 4.3', 'Definitivamente no')}>
+                                        Definitivamente no: No veo cómo podría beneficiarnos.
+                                    </button>
                                 </div>
+                            </div>
+                            <div className='h-1/3 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={questionimg4_3} className='h-full w-full object-cover' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -718,7 +848,7 @@ const Welcome = () => {
                         <button className='navigation-button' onClick={handlePreviousQuestion}>
                             &lt; {/* Flecha estilo "<" hacia la izquierda */}
                         </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
+                        <button className='navigation-button' onClick={handleNextQuestion} disabled={!areButtonsEnabled}>
                             &gt; {/* Flecha estilo ">" hacia la derecha */}
                         </button>
                     </div>
@@ -733,20 +863,31 @@ const Welcome = () => {
                 <div className="">
                     <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
                         <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 1.3: ¿Cree que nuestra plataforma ofrece suficiente valor a su empresa como para desear adquirirla? ¿Qué funcionalidades o aspectos considera usted más valiosos?</h1>
+                            <div className='h-1/3 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={extra4_3} className='h-full w-full object-cover' alt='Imagen2' />
+                            </div>
+                            <div className='h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='w-full px-8 sm:px-12 md:px-20'>
+                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
+                                        Si ha seleccionado &#39;Definitivamente sí&#39; o &#39;Probablemente sí&#39;, por favor, indique
+                                        ¿por qué cree que sería beneficioso para su empresa?
+                                    </h1>
+                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
+                                        Si ha seleccionado
+                                        &#39;Probablemente no&#39; o &#39;Definitivamente no&#39;, por favor, indique ¿qué le hace
+                                        dudar o pensar que no sería útil?
+                                    </h1>
                                     <textarea
-                                        className="text-area w-full h-52"
+                                        className="text-area w-full h-30"
                                         maxLength="2000"
-                                        value={responses['Pregunta 1.3']}
-                                        onChange={(e) => handleTextChange('Pregunta 1.3', e.target.value)}
+                                        value={responses['Extra 4.3']}
+                                        onChange={(e) => {
+                                            handleTextChange('Extra 4.3', e.target.value);
+                                            setAreButtonsEnabled(e.target.value.trim() !== ''); // habilitar o deshabilitar basado en si textarea está vacío
+                                        }}
                                     />
                                 </div>
 
-                            </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={questionimg1_3} className='h-full w-full sm:object-contain md:object-fill' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -754,14 +895,12 @@ const Welcome = () => {
                         <button className='navigation-button' onClick={handlePreviousQuestion}>
                             &lt; {/* Flecha estilo "<" hacia la izquierda */}
                         </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
+                        <button className='navigation-button' onClick={handleNextQuestion} disabled={!areButtonsEnabled}>
                             &gt; {/* Flecha estilo ">" hacia la derecha */}
                         </button>
                     </div>
                 </div>
             </CSSTransition>
-
-
             <CSSTransition
                 in={currentQuestion === 14}
                 timeout={500}
@@ -771,26 +910,34 @@ const Welcome = () => {
                 <div className="">
                     <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
                         <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={metricimg1_3} className='h-full w-full sm:object-contain md:object-fill' alt='Imagen2' />
+                            <div className='h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='w-full px-8 sm:px-12'>
+                                    <h1 className='text-xs lg:text-xl text-roboto text-justify font-bold mb-5'>Pregunta 5.1: Si tuviera un software que le ofrece recomendaciones basadas en
+                                        indicadores y estrategias de economía circular, ¿cómo valoraría su impacto
+                                        en la eficiencia de la toma de decisiones en su empresa?</h1>
+                                    <button className={`button-cuestionary ${responses['Pregunta 5.1'] === 'Impacto muy positivo' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 5.1', 'Impacto muy positivo')}>
+                                        Impacto muy positivo: Aceleraría significativamente nuestra toma
+                                        de decisiones y las haría más efectivas.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 5.1'] === 'Impacto positivo' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 5.1', 'Impacto positivo')}>
+                                        Impacto positivo: Mejoraría nuestra toma de decisiones.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 5.1'] === 'Neutral' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 5.1', 'Neutral')}>
+                                        Neutral: No estoy seguro si cambiaría nuestra eficiencia en la toma de
+                                        decisiones.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 5.1'] === 'Impacto negativo' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 5.1', 'Impacto negativo')}>
+                                        Impacto negativo: Podría complicar o ralentizar nuestra toma de
+                                        decisiones.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 5.1'] === 'Impacto muy negativo' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 5.1', 'Impacto muy negativo')}>
+                                        Impacto muy negativo: Sería un obstáculo en nuestro proceso de
+                                        decisión.
+                                    </button>
+                                </div>
                             </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
-                                        Métrica 1.3: En una escala del 1 al 5, siendo 1 &ldquo;muy en desacuerdo&rdquo; y 5 &ldquo;muy de acuerdo&rdquo;. ¿Cree que nuestra plataforma ofrece suficiente valor a su empresa como para desear adquirirla?
-                                    </h1>
-                                </div>
-                                <div className='scale-container'>
-                                    {[1, 2, 3, 4, 5].map((number) => (
-                                        <button
-                                            key={number}
-                                            className={`scale-option ${selectedScales['Métrica 1.3'] === number ? 'selected' : ''}`}
-                                            onClick={() => updateScale('Métrica 1.3', number)}
-                                        >
-                                            {number}
-                                        </button>
-                                    ))}
-                                </div>
+                            <div className='h-1/3 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={questionimg5_1} className='h-full w-full object-cover' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -798,12 +945,14 @@ const Welcome = () => {
                         <button className='navigation-button' onClick={handlePreviousQuestion}>
                             &lt; {/* Flecha estilo "<" hacia la izquierda */}
                         </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
+                        <button className='navigation-button' onClick={handleNextQuestion} disabled={!areButtonsEnabled}>
                             &gt; {/* Flecha estilo ">" hacia la derecha */}
                         </button>
                     </div>
                 </div>
             </CSSTransition>
+
+
             <CSSTransition
                 in={currentQuestion === 15}
                 timeout={500}
@@ -813,20 +962,32 @@ const Welcome = () => {
                 <div className="">
                     <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
                         <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 2.3: ¿Qué funcionalidades adicionales o mejoras cree usted que se podrían incluir en nuestra plataforma para aumentar su valor y hacerla de mayor valor para potenciar y acelerar la estrategia de economía circular?</h1>
-                                    <textarea
-                                        className="text-area w-full h-52"
-                                        maxLength="2000"
-                                        value={responses['Pregunta 2.3']}
-                                        onChange={(e) => handleTextChange('Pregunta 2.3', e.target.value)}
-                                    />
-                                </div>
-
+                            <div className='h-1/3 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={questionimg5_2} className='h-full w-full object-cover' alt='Imagen2' />
                             </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={questionimg2_3} className='h-full w-full object-cover' alt='Imagen' />
+                            <div className='h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='w-full px-8 sm:px-12'>
+                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
+                                        Pregunta 5.2: ¿Considera que identificar procesos clave que requieren rediseño o inversión es
+                                        esencial para transitar hacia la economía circular en su empresa?
+                                    </h1>
+                                    <button className={`button-cuestionary ${responses['Pregunta 5.2'] === 'Esencial' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 5.2', 'Esencial')}>
+                                        Esencial: Identificar estos procesos es fundamental para nuestra transición.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 5.2'] === 'Importante' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 5.2', 'Importante')}>
+                                        Importante: Es una parte significativa pero no la única en nuestra transición.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 5.2'] === 'Neutral' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 5.2', 'Neutral')}>
+                                        Neutral: No tengo una opinión formada al respecto.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 5.2'] === 'De menor importancia' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 5.2', 'De menor importancia')}>
+                                        De menor importancia: Puede ser útil, pero hay otros aspectos más cruciales.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 5.2'] === 'Irrelevante' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 5.2', 'Irrelevante')}>
+                                        Irrelevante: No veo cómo la identificación de estos procesos podría
+                                        beneficiarnos.
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -834,7 +995,7 @@ const Welcome = () => {
                         <button className='navigation-button' onClick={handlePreviousQuestion}>
                             &lt; {/* Flecha estilo "<" hacia la izquierda */}
                         </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
+                        <button className='navigation-button' onClick={handleNextQuestion} disabled={!areButtonsEnabled}>
                             &gt; {/* Flecha estilo ">" hacia la derecha */}
                         </button>
                     </div>
@@ -849,26 +1010,33 @@ const Welcome = () => {
                 <div className="">
                     <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
                         <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={metricimg2_3} className='h-full w-full object-cover' alt='Imagen2' />
-                            </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
-                                        Métrica 2.3: En una escala del 1 al 5, siendo 1 &ldquo;no valioso en absoluto&rdquo; y 5 &ldquo;extremadamente valioso&rdquo;. ¿Cuán valiosa considera una solución que le brinde acceso directo a esta información?
+                            <div className='h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='w-full px-8 sm:px-12'>
+                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-2'>Pregunta 5.3: Si contara con una herramienta que proporciona insights sobre estos procesos
+                                        clave, ¿cómo evaluaría su impacto en la transición de su empresa hacia la economía
+                                        circular?
                                     </h1>
+                                    <button className={`button-cuestionary ${responses['Pregunta 5.3'] === 'Impacto esencial' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 5.3', 'Impacto esencial')}>
+                                        Impacto esencial: Esta herramienta sería un pilar para nuestra transición.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 5.3'] === 'Impacto significativo' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 5.3', 'Impacto significativo')}>
+                                        Impacto significativo: Nos ayudaría a direccionar nuestras acciones e
+                                        inversiones.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 5.3'] === 'Neutral' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 5.3', 'Neutral')}>
+                                        Neutral: No estoy seguro del impacto que podría tener.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 5.3'] === 'Impacto limitado' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 5.3', 'Impacto limitado')}>
+                                        Impacto limitado: Puede ofrecer algo de ayuda, pero no sería decisiva.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 5.3'] === 'Sin impacto' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 5.3', 'Sin impacto')}>
+                                        Sin impacto: No veo cómo esta herramienta podría beneficiarnos.
+                                    </button>
                                 </div>
-                                <div className='scale-container'>
-                                    {[1, 2, 3, 4, 5].map((number) => (
-                                        <button
-                                            key={number}
-                                            className={`scale-option ${selectedScales['Métrica 2.3'] === number ? 'selected' : ''}`}
-                                            onClick={() => updateScale('Métrica 2.3', number)}
-                                        >
-                                            {number}
-                                        </button>
-                                    ))}
-                                </div>
+
+                            </div>
+                            <div className='h-1/3 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={questionimg5_3} className='h-full w-full object-cover' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -876,7 +1044,7 @@ const Welcome = () => {
                         <button className='navigation-button' onClick={handlePreviousQuestion}>
                             &lt; {/* Flecha estilo "<" hacia la izquierda */}
                         </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
+                        <button className='navigation-button' onClick={handleNextQuestion} disabled={!areButtonsEnabled}>
                             &gt; {/* Flecha estilo ">" hacia la derecha */}
                         </button>
                     </div>
@@ -891,36 +1059,35 @@ const Welcome = () => {
                 <div className="">
                     <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
                         <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='w-screen  flex flex-col items-center justify-start'>
-                                <div className='w-full h-screen'>
-                                    <h1 className='text-2xl text-roboto font-bold text-center mt-10 mb-5'>Validación 4: Contexto</h1>
-                                    <div className='h-[80%] flex flex-col justify-center items-center text-center text-white'>
-                                        <div className='w-full flex flex-row gap-4 px-8 py-4'>
-                                            <div className='w-full text-2xl info-header bg-custom-dark-green'>
-                                                Inteligencia Articial
-                                            </div>
-                                        </div>
-                                        <div className='w-full flex flex-row gap-4 px-8 py-4'>
-                                            <div className='w-1/2 text-xl info-header bg-custom-dark-green'>
-                                                Estrategia
-                                            </div>
-                                            <div className='w-1/2 text-xl info-header bg-custom-dark-green'>
-                                                Proyectos
-                                            </div>
-                                        </div>
-                                        <div className='w-full flex flex-row gap-4 px-12 py-4'>
-                                            <div className='w-1/2 info-header text-black'>
-                                                <div className='w-[80%] text-sm sm:text-base'>
-                                                    Inteligencia que procesa información y experiencia para entregar estrategia.
-                                                </div>
-                                            </div>
-                                            <div className='w-1/2 info-header text-black'>
-                                                <div className='w-[80%] text-sm sm:text-base'>
-                                                    Evaluar posibles proyectos de Economía Circular informando el posible impacto.
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div className='h-1/3 sm:h-full sm:w-1/2 flex items-end justify-end'>
+                                <img src={questionimg6_1} className='h-full w-full object-cover' alt='Imagen2' />
+                            </div>
+                            <div className='h-full sm:w-1/2 flex flex-col items-center justify-center'>
+                                <div className='w-full px-8 sm:px-12'>
+                                    <h1 className='text-xs lg:text-xl text-roboto font-bold text-justify mb-5'>
+                                        Pregunta 6.1: Considerando las características clave de una plataforma destinada a la economía
+                                        circular, ¿cómo evaluaría el potencial de una nueva herramienta, comparada con las
+                                        actuales soluciones digitales que utiliza para la gestión de proyectos en
+                                        sustentabilidad y economía circular?
+                                    </h1>
+                                    <button className={`button-cuestionary ${responses['Pregunta 6.1'] === 'Mucho más prometedor' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 6.1', 'Mucho más prometedor')}>
+                                        Mucho más prometedor.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 6.1'] === 'Más prometedor' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 6.1', 'Más prometedor')}>
+                                        Más prometedor.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 6.1'] === 'Similar' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 6.1', 'Similar')}>
+                                        Similar.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 6.1'] === 'Menos prometedor' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 6.1', 'Menos prometedor')}>
+                                        Menos prometedor.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 6.1'] === 'Mucho menos prometedor' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 6.1', 'Mucho menos prometedor')}>
+                                        Mucho menos prometedor.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 6.1'] === 'No puedo opinar sin más detalles' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 6.1', 'No puedo opinar sin más detalles')}>
+                                        No puedo opinar sin más detalles.
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -929,7 +1096,7 @@ const Welcome = () => {
                         <button className='navigation-button' onClick={handlePreviousQuestion}>
                             &lt; {/* Flecha estilo "<" hacia la izquierda */}
                         </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
+                        <button className='navigation-button' onClick={handleNextQuestion} disabled={!areButtonsEnabled}>
                             &gt; {/* Flecha estilo ">" hacia la derecha */}
                         </button>
                     </div>
@@ -944,20 +1111,44 @@ const Welcome = () => {
                 <div className="">
                     <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
                         <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 1.4: ¿Cuán prioritaria es la economía circular en su estrategia actual de sostenibilidad y cómo ve su relevancia para el futuro de su empresa?</h1>
+                            <div className='h-full sm:w-3/5 flex items-center'>
+                                <div className='w-full px-8 sm:px-12'>
+                                    <h1 className='text-xs lg:text-lg text-roboto text-justify font-bold mb-5'>Pregunta 6.2: ¿Siente que la falta de una herramienta digital específica para gestionar las estrategias de
+                                        economía circular ha afectado a su capacidad para implementar efectivamente dichas estrategias?
+                                    </h1>
+                                    <button className={`button-cuestionary ${responses['Pregunta 6.2'] === 'Sí, definitivamente' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 6.2', 'Sí, definitivamente')}>
+                                        Sí, definitivamente.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 6.2'] === 'Probablemente sí' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 6.2', 'Probablemente sí')}>
+                                        Probablemente sí.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 6.2'] === 'No estoy seguro' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 6.2', 'No estoy seguro')}>
+                                        No estoy seguro.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 6.2'] === 'Probablemente no' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 6.2', 'Probablemente no')}>
+                                        Probablemente no.
+                                    </button>
+                                    <button className={`button-cuestionary ${responses['Pregunta 6.2'] === 'No, no ha afectado' ? 'selected' : ''}`} onClick={() => handleUniqueResponse('Pregunta 6.2', 'No, no ha afectado')}>
+                                        No, no ha afectado.
+                                    </button>
+                                </div>
+                            </div>
+                            <div className='h-1/2 sm:h-full sm:w-2/5 flex items-center'>
+                                <div className='w-full px-8 sm:px-0 sm:pr-8 md:pr-12'>
+                                    <h1 className='text-xs lg:text-lg text-roboto text-justify font-bold mb-5'>Por favor, proporciona cualquier comentario adicional sobre
+                                        cómo la falta de herramientas específicas ha afectado o no tu capacidad para implementar
+                                        estrategias de economía circular.
+                                    </h1>
                                     <textarea
-                                        className="text-area w-full h-52"
+                                        className="text-area w-full h-22 sm:h-30"
                                         maxLength="2000"
-                                        value={responses['Pregunta 1.4']}
-                                        onChange={(e) => handleTextChange('Pregunta 1.4', e.target.value)}
+                                        value={responses['Extra 6.2']}
+                                        onChange={(e) => {
+                                            handleTextChange('Extra 6.2', e.target.value);
+                                            setAreButtonsEnabled(e.target.value.trim() !== ''); // habilitar o deshabilitar basado en si textarea está vacío
+                                        }}
                                     />
                                 </div>
-
-                            </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={questionimg1_4} className='h-full w-full object-cover' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -965,7 +1156,7 @@ const Welcome = () => {
                         <button className='navigation-button' onClick={handlePreviousQuestion}>
                             &lt; {/* Flecha estilo "<" hacia la izquierda */}
                         </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
+                        <button className='navigation-button' onClick={handleNextQuestion} disabled={!areButtonsEnabled}>
                             &gt; {/* Flecha estilo ">" hacia la derecha */}
                         </button>
                     </div>
@@ -981,26 +1172,34 @@ const Welcome = () => {
             >
                 <div className="">
                     <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
-                        <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={metricimg1_4} className='h-full w-full object-cover' alt='Imagen2' />
-                            </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
-                                        Métrica 1.4: En una escala del 1 al 5, siendo 1 &ldquo;muy en desacuerdo&rdquo; y 5 &ldquo;muy de acuerdo&rdquo;. ¿Considera que la economía circular es relevante para el futuro de su empresa?
+                        <div className='h-screen w-full flex flex-row sm:flex-row'>
+                            <div className='flex flex-col items-center justify-center'>
+                                <div className='w-full px-8 sm:px-16'>
+                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-10'>
+                                        Pregunta 7.1: Considerando la evolución constante de la economía circular y sus impactos en el
+                                        negocio, ¿cómo calificaría la importancia de una plataforma educativa que
+                                        proporciona formación en tiempo real sobre estos conceptos y que puede generar
+                                        oportunidades de negocio y empleo para su organización?
                                     </h1>
-                                </div>
-                                <div className='scale-container'>
-                                    {[1, 2, 3, 4, 5].map((number) => (
-                                        <button
-                                            key={number}
-                                            className={`scale-option ${selectedScales['Métrica 1.4'] === number ? 'selected' : ''}`}
-                                            onClick={() => updateScale('Métrica 1.4', number)}
-                                        >
-                                            {number}
-                                        </button>
-                                    ))}
+                                    <div className='overflow-x-hidden'>
+                                        <Likert {...likertOptions} flexible={true} />
+                                    </div>
+                                    <h1 className='text-xs lg:text-lg text-roboto font-semibold text-justify mb-5'>
+                                        Si lo desea, proporcione más detalles sobre su
+                                        elección o sugiera características adicionales que consideraría valiosas en dicha
+                                        plataforma.
+                                    </h1>
+                                    <div className='flex items-center justify-center'>
+                                        <textarea
+                                            className="text-area w-full h-30"
+                                            maxLength="2000"
+                                            value={responses['Extra 7.1']}
+                                            onChange={(e) => {
+                                                handleTextChange('Extra 7.1', e.target.value);
+                                                setAreButtonsEnabled(e.target.value.trim() !== ''); // habilitar o deshabilitar basado en si textarea está vacío
+                                            }}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1009,7 +1208,7 @@ const Welcome = () => {
                         <button className='navigation-button' onClick={handlePreviousQuestion}>
                             &lt; {/* Flecha estilo "<" hacia la izquierda */}
                         </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
+                        <button className='navigation-button' onClick={handleNextQuestion} disabled={!areButtonsEnabled}>
                             &gt; {/* Flecha estilo ">" hacia la derecha */}
                         </button>
                     </div>
@@ -1026,18 +1225,24 @@ const Welcome = () => {
                         <div className='h-screen w-full flex flex-col sm:flex-row'>
                             <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
                                 <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 2.4: Nuestro proyecto tiene como propósito ofrecer un sistema inteligente que ayuda a las empresas a implementar y mejorar la aplicación de la economía circular. ¿Cree que un sistema como este podría ayudar a su empresa a avanzar hacia una operación más circular? ¿Por qué?</h1>
+                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>
+                                        Pregunta 7.2: Pensando en plataformas educativas online que haya usado en el pasado,
+                                        ¿cuáles son las características o funcionalidades que más ha valorado?
+                                    </h1>
                                     <textarea
-                                        className="text-area w-full h-52"
+                                        className="text-area w-full h-30"
                                         maxLength="2000"
-                                        value={responses['Pregunta 2.4']}
-                                        onChange={(e) => handleTextChange('Pregunta 2.4', e.target.value)}
+                                        value={responses['Pregunta 7.2']}
+                                        onChange={(e) => {
+                                            handleTextChange('Pregunta 7.2', e.target.value);
+                                            setAreButtonsEnabled(e.target.value.trim() !== ''); // habilitar o deshabilitar basado en si textarea está vacío
+                                        }}
                                     />
                                 </div>
 
                             </div>
                             <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={questionimg2_4} className='h-full w-full object-cover' alt='Imagen' />
+                                <img src={questionimg7_2} className='h-full w-full object-cover' alt='Imagen' />
                             </div>
                         </div>
                     </div>
@@ -1045,7 +1250,7 @@ const Welcome = () => {
                         <button className='navigation-button' onClick={handlePreviousQuestion}>
                             &lt; {/* Flecha estilo "<" hacia la izquierda */}
                         </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
+                        <button className='navigation-button' onClick={handleNextQuestion} disabled={!areButtonsEnabled}>
                             &gt; {/* Flecha estilo ">" hacia la derecha */}
                         </button>
                     </div>
@@ -1061,24 +1266,24 @@ const Welcome = () => {
                     <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
                         <div className='h-screen w-full flex flex-col sm:flex-row'>
                             <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={metricimg2_4} className='h-full w-full object-cover' alt='Imagen2' />
+                                <img src={questionimg7_3} className='h-full w-full object-cover' alt='Imagen2' />
                             </div>
                             <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
                                 <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
                                     <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
-                                        Métrica 2.4: En una escala del 1 al 5, siendo 1 &ldquo;muy en desacuerdo&rdquo; y 5 &ldquo;muy de acuerdo&rdquo;. ¿Considera que un sistema como el que propone CircularIA ayudaría a solucionar problemas reales para avanzar hacia una organización y producción más circular?
+                                        Pregunta 7.3: Al imaginar una plataforma educativa específicamente centrada en la
+                                        economía circular, ¿qué características, contenidos o funcionalidades esperaría
+                                        que tuviera?
                                     </h1>
-                                </div>
-                                <div className='scale-container'>
-                                    {[1, 2, 3, 4, 5].map((number) => (
-                                        <button
-                                            key={number}
-                                            className={`scale-option ${selectedScales['Métrica 2.4'] === number ? 'selected' : ''}`}
-                                            onClick={() => updateScale('Métrica 2.4', number)}
-                                        >
-                                            {number}
-                                        </button>
-                                    ))}
+                                    <textarea
+                                        className="text-area w-full h-30"
+                                        maxLength="2000"
+                                        value={responses['Pregunta 7.3']}
+                                        onChange={(e) => {
+                                            handleTextChange('Pregunta 7.3', e.target.value);
+                                            setAreButtonsEnabled(e.target.value.trim() !== ''); // habilitar o deshabilitar basado en si textarea está vacío
+                                        }}
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -1087,7 +1292,7 @@ const Welcome = () => {
                         <button className='navigation-button' onClick={handlePreviousQuestion}>
                             &lt; {/* Flecha estilo "<" hacia la izquierda */}
                         </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
+                        <button className='navigation-button' onClick={handleNextQuestion} disabled={!areButtonsEnabled}>
                             &gt; {/* Flecha estilo ">" hacia la derecha */}
                         </button>
                     </div>
@@ -1095,588 +1300,6 @@ const Welcome = () => {
             </CSSTransition>
             <CSSTransition
                 in={currentQuestion === 22}
-                timeout={500}
-                classNames='question-transition'
-                unmountOnExit
-            >
-                <div className="">
-                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
-                        <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='w-screen flex flex-col items-center justify-center'>
-                                <div className='w-full'>
-                                    <h1 className='text-2xl text-roboto font-bold text-center mt-10'>Validación 5: Contexto</h1>
-                                    <h1 className='text-3xl text-roboto font-bold text-center text-[#00B971] mb-5'>Como es una aplicación de una buena estrategia de Economía Circular</h1>
-                                </div>
-                                <img src={context5} alt='Context5' />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='navigation-buttons'>
-                        <button className='navigation-button' onClick={handlePreviousQuestion}>
-                            &lt; {/* Flecha estilo "<" hacia la izquierda */}
-                        </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
-                            &gt; {/* Flecha estilo ">" hacia la derecha */}
-                        </button>
-                    </div>
-                </div>
-            </CSSTransition>
-            <CSSTransition
-                in={currentQuestion === 23}
-                timeout={500}
-                classNames='question-transition'
-                unmountOnExit
-            >
-                <div className="">
-                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
-                        <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 1.5: En su opinión, ¿qué impacto tendría un software que le proporciona recomendaciones sobre indicadores y estrategias de economía circular en la eficiencia de la toma de decisiones en su empresa?</h1>
-                                    <textarea
-                                        className="text-area w-full h-52"
-                                        maxLength="2000"
-                                        value={responses['Pregunta 1.5']}
-                                        onChange={(e) => handleTextChange('Pregunta 1.5', e.target.value)}
-                                    />
-                                </div>
-
-                            </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={questionimg1_5} className='h-full w-full object-cover' alt='Imagen' />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='navigation-buttons'>
-                        <button className='navigation-button' onClick={handlePreviousQuestion}>
-                            &lt; {/* Flecha estilo "<" hacia la izquierda */}
-                        </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
-                            &gt; {/* Flecha estilo ">" hacia la derecha */}
-                        </button>
-                    </div>
-                </div>
-            </CSSTransition>
-
-
-            <CSSTransition
-                in={currentQuestion === 24}
-                timeout={500}
-                classNames='question-transition'
-                unmountOnExit
-            >
-                <div className="">
-                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
-                        <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={metricimg1_5} className='h-full w-full object-cover' alt='Imagen2' />
-                            </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
-                                        Métrica 1.5: En una escala del 1 al 5, siendo 1 &ldquo;muy en desacuerdo&rdquo; y 5 &ldquo;muy de acuerdo&rdquo;. ¿Considera que poder acceder a un software que ayuda a gestionar la estrategia de Economía Circular y sostenibilidad puede potenciar su estrategia de Economía Circular?
-                                    </h1>
-                                </div>
-                                <div className='scale-container'>
-                                    {[1, 2, 3, 4, 5].map((number) => (
-                                        <button
-                                            key={number}
-                                            className={`scale-option ${selectedScales['Métrica 1.5'] === number ? 'selected' : ''}`}
-                                            onClick={() => updateScale('Métrica 1.5', number)}
-                                        >
-                                            {number}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='navigation-buttons'>
-                        <button className='navigation-button' onClick={handlePreviousQuestion}>
-                            &lt; {/* Flecha estilo "<" hacia la izquierda */}
-                        </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
-                            &gt; {/* Flecha estilo ">" hacia la derecha */}
-                        </button>
-                    </div>
-                </div>
-            </CSSTransition>
-            <CSSTransition
-                in={currentQuestion === 25}
-                timeout={500}
-                classNames='question-transition'
-                unmountOnExit
-            >
-                <div className="">
-                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
-                        <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 2.5: ¿Considera que la identificación de procesos clave para reforzar la estrategia de economía circular y las sugerencias sobre posibles inversiones podrían ayudar a su empresa a realizar una transición más suave hacia la economía circular?</h1>
-                                    <textarea
-                                        className="text-area w-full h-52"
-                                        maxLength="2000"
-                                        value={responses['Pregunta 2.5']}
-                                        onChange={(e) => handleTextChange('Pregunta 2.5', e.target.value)}
-                                    />
-                                </div>
-
-                            </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={questionimg2_5} className='h-full w-full object-cover' alt='Imagen' />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='navigation-buttons'>
-                        <button className='navigation-button' onClick={handlePreviousQuestion}>
-                            &lt; {/* Flecha estilo "<" hacia la izquierda */}
-                        </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
-                            &gt; {/* Flecha estilo ">" hacia la derecha */}
-                        </button>
-                    </div>
-                </div>
-            </CSSTransition>
-            <CSSTransition
-                in={currentQuestion === 26}
-                timeout={500}
-                classNames='question-transition'
-                unmountOnExit
-            >
-                <div className="">
-                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
-                        <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={metricimg2_5} className='h-full w-full object-cover' alt='Imagen2' />
-                            </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
-                                        Métrica 2.5: En una escala del 1 al 5, siendo 1 &ldquo;muy en desacuerdo&rdquo; y 5 &ldquo;muy de acuerdo&rdquo;. ¿Considera que una funcionalidad que identifica procesos claves y posibles inversiones puede ayudar a fomentar los proyectos de Economía Circular dentro de la empresa?
-                                    </h1>
-                                </div>
-                                <div className='scale-container'>
-                                    {[1, 2, 3, 4, 5].map((number) => (
-                                        <button
-                                            key={number}
-                                            className={`scale-option ${selectedScales['Métrica 2.5'] === number ? 'selected' : ''}`}
-                                            onClick={() => updateScale('Métrica 2.5', number)}
-                                        >
-                                            {number}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='navigation-buttons'>
-                        <button className='navigation-button' onClick={handlePreviousQuestion}>
-                            &lt; {/* Flecha estilo "<" hacia la izquierda */}
-                        </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
-                            &gt; {/* Flecha estilo ">" hacia la derecha */}
-                        </button>
-                    </div>
-                </div>
-            </CSSTransition>
-            <CSSTransition
-                in={currentQuestion === 27}
-                timeout={500}
-                classNames='question-transition'
-                unmountOnExit
-            >
-                <div className="">
-                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
-                        <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='w-screen  flex flex-col items-center justify-start'>
-                                <div className='w-full h-screen'>
-                                    <h1 className='text-2xl text-roboto font-bold text-center mt-10'>Validación 6: Contexto</h1>
-                                    <h1 className='text-3xl text-roboto font-bold text-center mt-5'>Otras herramientas de gestión de proyectos</h1>
-                                    <div className='h-[70%] flex flex-col justify-center items-center text-center text-white'>
-                                        <div className='w-[70%] flex flex-row gap-10 px-8 py-4'>
-                                            <div className='w-1/2 info-header bg-custom-dark-green'>
-                                                SAP
-                                            </div>
-                                            <div className='w-1/2 info-header bg-custom-dark-green'>
-                                                Excel
-                                            </div>
-                                        </div>
-                                        <div className='w-[70%] flex flex-row gap-10 px-8 py-4'>
-                                            <div className='w-1/2 info-header bg-custom-dark-green'>
-                                                Monday
-                                            </div>
-                                            <div className='w-1/2 info-header bg-custom-dark-green'>
-                                                Trello
-                                            </div>
-                                        </div>
-                                        <div className='w-[70%] flex flex-row gap-10 px-8 py-4'>
-                                            <div className='w-1/2 info-header bg-custom-dark-green'>
-                                                Slack
-                                            </div>
-                                            <div className='w-1/2 info-header bg-custom-dark-green'>
-                                                Notion
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='navigation-buttons'>
-                        <button className='navigation-button' onClick={handlePreviousQuestion}>
-                            &lt; {/* Flecha estilo "<" hacia la izquierda */}
-                        </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
-                            &gt; {/* Flecha estilo ">" hacia la derecha */}
-                        </button>
-                    </div>
-                </div>
-            </CSSTransition>
-            <CSSTransition
-                in={currentQuestion === 28}
-                timeout={500}
-                classNames='question-transition'
-                unmountOnExit
-            >
-                <div className="">
-                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
-                        <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 1.6: ¿Cómo ve el potencial de nuestra plataforma para gestionar eficazmente una estrategia de economía circular, en comparación con las herramientas digitales que se utilizan para la gestión de proyectos?</h1>
-                                    <textarea
-                                        className="text-area w-full h-52"
-                                        maxLength="2000"
-                                        value={responses['Pregunta 1.6']}
-                                        onChange={(e) => handleTextChange('Pregunta 1.6', e.target.value)}
-                                    />
-                                </div>
-
-                            </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={questionimg1_6} className='h-full w-full object-cover' alt='Imagen' />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='navigation-buttons'>
-                        <button className='navigation-button' onClick={handlePreviousQuestion}>
-                            &lt; {/* Flecha estilo "<" hacia la izquierda */}
-                        </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
-                            &gt; {/* Flecha estilo ">" hacia la derecha */}
-                        </button>
-                    </div>
-                </div>
-            </CSSTransition>
-
-
-            <CSSTransition
-                in={currentQuestion === 29}
-                timeout={500}
-                classNames='question-transition'
-                unmountOnExit
-            >
-                <div className="">
-                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
-                        <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-center justify-center relative'>
-                                <img src={metricimg1_6} className='h-full w-full object-cover' alt='Imagen de fondo' />
-                                <img src={logometric1_6} className='absolute h-68 w-68' alt='Logo' />
-                            </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
-                                        Métrica 1.6: En una escala del 1 al 5, donde 1 es muy poco eficaz y 5 es altamente eficaz. ¿Cómo calificaría la capacidad de nuestra plataforma CircularIA para gestionar una estrategia de economía circular en comparación con otras herramientas digitales que ha utilizado?
-                                    </h1>
-                                </div>
-                                <div className='scale-container'>
-                                    {[1, 2, 3, 4, 5].map((number) => (
-                                        <button
-                                            key={number}
-                                            className={`scale-option ${selectedScales['Métrica 1.6'] === number ? 'selected' : ''}`}
-                                            onClick={() => updateScale('Métrica 1.6', number)}
-                                        >
-                                            {number}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='navigation-buttons'>
-                        <button className='navigation-button' onClick={handlePreviousQuestion}>
-                            &lt; {/* Flecha estilo "<" hacia la izquierda */}
-                        </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
-                            &gt; {/* Flecha estilo ">" hacia la derecha */}
-                        </button>
-                    </div>
-                </div>
-            </CSSTransition>
-            <CSSTransition
-                in={currentQuestion === 30}
-                timeout={500}
-                classNames='question-transition'
-                unmountOnExit
-            >
-                <div className="">
-                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
-                        <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 2.6: ¿Siente que la falta de una herramienta digital específica para gestionar las estrategias de economía circular ha afectado a su capacidad para implementar efectivamente dichas estrategias?</h1>
-                                    <textarea
-                                        className="text-area w-full h-52"
-                                        maxLength="2000"
-                                        value={responses['Pregunta 2.6']}
-                                        onChange={(e) => handleTextChange('Pregunta 2.6', e.target.value)}
-                                    />
-                                </div>
-
-                            </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={questionimg2_6} className='h-full w-full object-cover' alt='Imagen' />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='navigation-buttons'>
-                        <button className='navigation-button' onClick={handlePreviousQuestion}>
-                            &lt; {/* Flecha estilo "<" hacia la izquierda */}
-                        </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
-                            &gt; {/* Flecha estilo ">" hacia la derecha */}
-                        </button>
-                    </div>
-                </div>
-            </CSSTransition>
-            <CSSTransition
-                in={currentQuestion === 31}
-                timeout={500}
-                classNames='question-transition'
-                unmountOnExit
-            >
-                <div className="">
-                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
-                        <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={metricimg2_6} className='h-full w-full object-cover' alt='Imagen2' />
-                            </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
-                                        Métrica 2.6: En una escala del 1 al 5, donde 1 significa que no afecta en absoluto y 5 significa que ha afectado significativamente. ¿Cómo percibe que la falta de una herramienta digital específica ha impactado su capacidad para implementar efectivamente estrategias de economía circular?
-                                    </h1>
-                                </div>
-                                <div className='scale-container'>
-                                    {[1, 2, 3, 4, 5].map((number) => (
-                                        <button
-                                            key={number}
-                                            className={`scale-option ${selectedScales['Métrica 2.6'] === number ? 'selected' : ''}`}
-                                            onClick={() => updateScale('Métrica 2.6', number)}
-                                        >
-                                            {number}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='navigation-buttons'>
-                        <button className='navigation-button' onClick={handlePreviousQuestion}>
-                            &lt; {/* Flecha estilo "<" hacia la izquierda */}
-                        </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
-                            &gt; {/* Flecha estilo ">" hacia la derecha */}
-                        </button>
-                    </div>
-                </div>
-            </CSSTransition>
-            <CSSTransition
-                in={currentQuestion === 32}
-                timeout={500}
-                classNames='question-transition'
-                unmountOnExit
-            >
-                <div className="">
-                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
-                        <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='w-screen flex flex-col items-center justify-center'>
-                                <h1 className='text-2xl text-roboto font-bold text-center mb-5'>Validación 7: Contexto</h1>
-                                <h1 className='text-3xl text-roboto font-bold text-center mb-5'>Autocapacitación mientras se usa</h1>
-                                <img src={context7} className='w-[40%] rounded-full object-cover' alt='Context5' />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='navigation-buttons'>
-                        <button className='navigation-button' onClick={handlePreviousQuestion}>
-                            &lt; {/* Flecha estilo "<" hacia la izquierda */}
-                        </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
-                            &gt; {/* Flecha estilo ">" hacia la derecha */}
-                        </button>
-                    </div>
-                </div>
-            </CSSTransition>
-            <CSSTransition
-                in={currentQuestion === 33}
-                timeout={500}
-                classNames='question-transition'
-                unmountOnExit
-            >
-                <div className="">
-                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
-                        <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-3/5 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 1.7: ¿Cómo evaluaría la importancia de una plataforma educativa que ofrece formación en tiempo real sobre conceptos de economía circular, que a su vez puede abrir oportunidades de negocio y empleo para su empresa?</h1>
-                                    <textarea
-                                        className="text-area w-full h-52"
-                                        maxLength="2000"
-                                        value={responses['Pregunta 1.7']}
-                                        onChange={(e) => handleTextChange('Pregunta 1.7', e.target.value)}
-                                    />
-                                </div>
-
-                            </div>
-                            <div className='h-1/2 sm:h-full sm:w-2/5 flex items-end justify-end'>
-                                <img src={questionimg1_7} className='h-full w-full object-cover' alt='Imagen' />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='navigation-buttons'>
-                        <button className='navigation-button' onClick={handlePreviousQuestion}>
-                            &lt; {/* Flecha estilo "<" hacia la izquierda */}
-                        </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
-                            &gt; {/* Flecha estilo ">" hacia la derecha */}
-                        </button>
-                    </div>
-                </div>
-            </CSSTransition>
-
-
-            <CSSTransition
-                in={currentQuestion === 34}
-                timeout={500}
-                classNames='question-transition'
-                unmountOnExit
-            >
-                <div className="">
-                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
-                        <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={metricimg1_7} className='h-full w-full object-cover' alt='Imagen2' />
-                            </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
-                                        Métrica 1.7: En una escala del 1 al 5, siendo 1 &ldquo;no importante&rdquo; y 5 &ldquo;muy importante&rdquo;. ¿Cuán importante sería para usted tener acceso a dicha plataforma?
-                                    </h1>
-                                </div>
-                                <div className='scale-container'>
-                                    {[1, 2, 3, 4, 5].map((number) => (
-                                        <button
-                                            key={number}
-                                            className={`scale-option ${selectedScales['Métrica 1.7'] === number ? 'selected' : ''}`}
-                                            onClick={() => updateScale('Métrica 1.7', number)}
-                                        >
-                                            {number}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='navigation-buttons'>
-                        <button className='navigation-button' onClick={handlePreviousQuestion}>
-                            &lt; {/* Flecha estilo "<" hacia la izquierda */}
-                        </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
-                            &gt; {/* Flecha estilo ">" hacia la derecha */}
-                        </button>
-                    </div>
-                </div>
-            </CSSTransition>
-            <CSSTransition
-                in={currentQuestion === 35}
-                timeout={500}
-                classNames='question-transition'
-                unmountOnExit
-            >
-                <div className="">
-                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
-                        <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-2xl text-roboto text-justify font-bold mb-5'>Pregunta 2.7: Al pensar en plataformas educativas online que haya usado en el pasado, ¿cuáles son las características que más valora y qué esperaría de una que enseñe sobre economía circular?</h1>
-                                    <textarea
-                                        className="text-area w-full h-52"
-                                        maxLength="2000"
-                                        value={responses['Pregunta 2.7']}
-                                        onChange={(e) => handleTextChange('Pregunta 2.7', e.target.value)}
-                                    />
-                                </div>
-
-                            </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={questionimg2_7} className='h-full w-full object-cover' alt='Imagen' />
-                            </div>
-                        </div>
-                    </div>
-                    <div className='navigation-buttons'>
-                        <button className='navigation-button' onClick={handlePreviousQuestion}>
-                            &lt; {/* Flecha estilo "<" hacia la izquierda */}
-                        </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
-                            &gt; {/* Flecha estilo ">" hacia la derecha */}
-                        </button>
-                    </div>
-                </div>
-            </CSSTransition>
-            <CSSTransition
-                in={currentQuestion === 36}
-                timeout={500}
-                classNames='question-transition'
-                unmountOnExit
-            >
-                <div className="">
-                    <div className={`${window.innerWidth > 768 ? 'contenedor' : ''}`}>
-                        <div className='h-screen w-full flex flex-col sm:flex-row'>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex items-end justify-end'>
-                                <img src={metricimg2_7} className='h-full w-full object-cover' alt='Imagen2' />
-                            </div>
-                            <div className='h-1/2 sm:h-full sm:w-1/2 flex flex-col items-center justify-center'>
-                                <div className='max-w-4xl w-full px-8 sm:px-12 md:px-20'>
-                                    <h1 className='text-sm lg:text-xl text-roboto font-bold text-justify mb-5'>
-                                        Métrica 2.7: Considerando los beneficios potenciales y las funcionalidades que ofrece nuestra plataforma de economía circular para su estrategia de sostenibilidad. ¿Cuál sería un rango de precio mensual que su empresa estaría dispuesta a invertir para acceder a esta herramienta?
-                                    </h1>
-                                </div>
-                                <div className='scale-container'>
-                                    {[1, 2, 3, 4, 5].map((number) => (
-                                        <button
-                                            key={number}
-                                            className={`scale-option ${selectedScales['Métrica 2.7'] === number ? 'selected' : ''}`}
-                                            onClick={() => updateScale('Métrica 2.7', number)}
-                                        >
-                                            {number}
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='navigation-buttons'>
-                        <button className='navigation-button' onClick={handlePreviousQuestion}>
-                            &lt; {/* Flecha estilo "<" hacia la izquierda */}
-                        </button>
-                        <button className='navigation-button' onClick={handleNextQuestion}>
-                            &gt; {/* Flecha estilo ">" hacia la derecha */}
-                        </button>
-                    </div>
-                </div>
-            </CSSTransition>
-            <CSSTransition
-                in={currentQuestion === 37}
                 timeout={500}
                 classNames='question-transition'
                 unmountOnExit
@@ -1700,7 +1323,7 @@ const Welcome = () => {
                 </div>
             </CSSTransition>
             <CSSTransition
-                in={currentQuestion === 38}
+                in={currentQuestion === 23}
                 timeout={500}
                 classNames='question-transition'
                 unmountOnExit

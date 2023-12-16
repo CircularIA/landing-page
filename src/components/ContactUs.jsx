@@ -1,33 +1,23 @@
 import styles from '../style';
-import {linkedin, mail, whatsapp} from '../assets';
+import { linkedin, mail, whatsapp } from '../assets';
 
-const linea = {
-  width: '80%',
-  height: '0.05rem',
-  backgroundColor: '#1E1E1E',
-  margin: '0 auto',
-  marginTop: '1rem',
-}
 
 const ContactUs = () => (
-  <div id="contactanos">
-    <div className='mb-10' style={linea}></div>
-    <div className="text-roboto">
-      <h1 className={`${styles.aboutText} text-3xl 2k:text-5xl 2k:text-6xl text-black font-bold mt-10`}>CONTÁCTANOS</h1>
-    </div>
+  <div id="contactanos" className='bg-contact-us-gradient p-10'>
+    <h1 className={`${styles.aboutText} text-white text-3xl 2k:text-5xl 2k:text-6xl text-black font-[600] pt-5`}>CONTÁCTANOS</h1>
     <div className='contactus-container w-[15%] 2k:w-[30%]'>
       <a href="https://www.linkedin.com/company/prosperse" target="_blank" rel="noreferrer">
-        <img src={linkedin} alt="Collaborator 1" className="collaborators-image 2k:w-[60px] 4k:w-[80px]"  />
+        <img src={linkedin} alt="Collaborator 1" className="collaborators-image 2k:w-[60px] 4k:w-[80px]" />
       </a>
       <a href="mailto:prosperseia@gmail.com" target="_blank" rel="noreferrer">
         <img src={mail} alt="Collaborator 2" className="collaborators-image 2k:w-[60px] 4k:w-[80px]" />
       </a>
-      <a href="https://wa.me/56957777777" target="_blank" rel="noreferrer">
+      <a href={`https://wa.me/${import.meta.env.VITE_ANA_PHONE}`} target="_blank" rel="noreferrer">
         <img src={whatsapp} alt="Collaborator 3" className="collaborators-image 2k:w-[60px] 4k:w-[80px]" />
       </a>
     </div>
-    <div className='text-roboto text-center mt-7 2k:text-xl 4k:text-2xl'>© 2023</div>
-    <div className='text-roboto text-center mt-7 2k:text-xl 4k:text-2xl'>Privacy Terms</div>
+    <div className='text-white text-roboto text-center mt-3 2k:text-xl 4k:text-2xl'>Este software está siendo desarrollado por Prosperse Technologies © 2023</div>
+    <div className='text-white text-roboto text-center mt-2 2k:text-xl 4k:text-2xl'>Privacy Terms</div>
   </div>
 )
 
