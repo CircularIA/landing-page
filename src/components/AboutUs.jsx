@@ -4,11 +4,11 @@ import { Carousel, Typography } from "@material-tailwind/react";
 import AnimatedOnScroll from './AnimatedOnScroll';
 import 'atropos/css';
 import Atropos from 'atropos/react';
-import funcionalidad2 from '../assets/funcionalidad2.png'
-import funcionalidad4 from '../assets/funcionalidad4.png'
-import funcionalidad5 from '../assets/funcionalidad5.png'
-import funcionalidad6 from '../assets/funcionalidad6.png'
-import funcionalidad7 from '../assets/funcionalidad7.png'
+import funcionalidad2 from '../assets/funcionalidad2.webp'
+import funcionalidad4 from '../assets/funcionalidad4.webp'
+import funcionalidad5 from '../assets/funcionalidad5.webp'
+import funcionalidad6 from '../assets/funcionalidad6.webp'
+import funcionalidad7 from '../assets/funcionalidad7.webp'
 
 const linea = {
   width: '80%',
